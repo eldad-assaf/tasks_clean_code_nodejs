@@ -1,1 +1,26 @@
-//
+import 'package:flutter/material.dart';
+import 'package:store_flutter_clean_code_nodejs/features/auth/presentation/pages/login_page.dart';
+import 'package:store_flutter_clean_code_nodejs/features/auth/presentation/pages/signup_page.dart';
+import 'package:store_flutter_clean_code_nodejs/main.dart';
+
+class AppRoutes {
+  static Route onGenerateRoutes(RouteSettings settings) {
+    switch (settings.name) {
+      case '/':
+        return _materialRoute(const Home());
+
+      case '/SignupPage':
+        return _materialRoute(const SignupPage());
+
+      case '/LoginPage':
+        return _materialRoute(const LoginPage());
+
+      default:
+        return _materialRoute(const Home());
+    }
+  }
+
+  static Route<dynamic> _materialRoute(Widget view) {
+    return MaterialPageRoute(builder: (_) => view);
+  }
+}

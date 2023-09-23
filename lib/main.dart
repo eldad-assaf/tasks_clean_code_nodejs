@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:store_flutter_clean_code_nodejs/config/routes/app_routes.dart';
+import 'package:store_flutter_clean_code_nodejs/features/auth/presentation/pages/login_page.dart';
+import 'package:store_flutter_clean_code_nodejs/features/auth/presentation/pages/signup_page.dart';
 
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  //WidgetsFlutterBinding.ensureInitialized();
 //  await initializeDependencies();
   runApp(const MyApp());
 }
@@ -12,10 +15,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
       //theme: theme(),
-      // onGenerateRoute: AppRoutes.onGenerateRoutes,
-      home: Home(),
+      onGenerateRoute: AppRoutes.onGenerateRoutes,
+      home: SignupPage(),
     );
   }
 }
