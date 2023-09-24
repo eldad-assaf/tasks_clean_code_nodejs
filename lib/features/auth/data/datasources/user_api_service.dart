@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:retrofit/retrofit.dart';
 import 'package:dio/dio.dart';
 import 'package:store_flutter_clean_code_nodejs/core/constants/constants.dart';
+import 'package:store_flutter_clean_code_nodejs/features/auth/data/models/login_request_data.dart';
 import 'package:store_flutter_clean_code_nodejs/features/auth/data/models/register_request_data.dart';
 import 'package:store_flutter_clean_code_nodejs/features/auth/data/models/user_model.dart';
 
@@ -17,5 +18,8 @@ abstract class UserApiService {
       @Body() RegisterRequestData registerRequestData,
       @Header("Content-Type") String contentType);
 
-      
+  @POST("/auth/login")
+  Future<HttpResponse<UserModel>> loginUser(
+      @Body() LoginRequestData loginRequestData,
+      @Header("Content-Type") String contentType);
 }

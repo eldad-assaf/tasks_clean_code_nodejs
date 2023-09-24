@@ -22,41 +22,65 @@ class _UserApiService implements UserApiService {
 
   @override
   Future<HttpResponse<UserModel>> registerUser(
-    @Body() RegisterRequestData registerRequestData, // Specify the type
-    @Header('Content-Type')
-    String contentType, // Specify the type and add @Header annotation
+    registerRequestData,
+    contentType,
   ) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{};
-
-    // Remove the following line, it's not needed
-    // _headers.removeWhere((k, v) => v == null);
-
-    final _data = registerRequestData
-        .toJson(); // Assuming you have a toJson method in RegisterRequestData
+    final _headers = <String, dynamic>{r'Content-Type': contentType};
+    _headers.removeWhere((k, v) => v == null);
+    final _data = <String, dynamic>{};
+    _data.addAll(registerRequestData.toJson());
     final _result = await _dio.fetch<Map<String, dynamic>>(
-      _setStreamType<HttpResponse<UserModel>>(Options(
-        method: 'POST',
-        headers: _headers,
-        extra: _extra,
-        contentType: contentType,
-      ))
-          .compose(
-            _dio.options,
-            '/auth/register',
-            queryParameters: queryParameters,
-            data: _data,
-          )
-          .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl),
-    );
-
+        _setStreamType<HttpResponse<UserModel>>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+      contentType: contentType,
+    )
+            .compose(
+              _dio.options,
+              '/auth/register',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = UserModel.fromJson(_result.data!);
     final httpResponse = HttpResponse(value, _result);
     return httpResponse;
   }
 
-  Options _setStreamType<T>(Options requestOptions) {
+  @override
+  Future<HttpResponse<UserModel>> loginUser(
+    loginRequestData,
+    contentType,
+  ) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'Content-Type': contentType};
+    _headers.removeWhere((k, v) => v == null);
+    final _data = <String, dynamic>{};
+    _data.addAll(loginRequestData.toJson());
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<HttpResponse<UserModel>>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+      contentType: contentType,
+    )
+            .compose(
+              _dio.options,
+              '/auth/login',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = UserModel.fromJson(_result.data!);
+    final httpResponse = HttpResponse(value, _result);
+    return httpResponse;
+  }
+
+  RequestOptions _setStreamType<T>(RequestOptions requestOptions) {
     if (T != dynamic &&
         !(requestOptions.responseType == ResponseType.bytes ||
             requestOptions.responseType == ResponseType.stream)) {

@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:store_flutter_clean_code_nodejs/common/reuseable_button.dart';
 import 'package:store_flutter_clean_code_nodejs/common/reuseable_text.dart';
 import 'package:store_flutter_clean_code_nodejs/config/theme/app_themes.dart';
 import 'package:store_flutter_clean_code_nodejs/common/reusable_text_field.dart';
+import 'package:store_flutter_clean_code_nodejs/features/auth/data/models/login_request_data.dart';
+import 'package:store_flutter_clean_code_nodejs/features/auth/presentation/bloc/login_bloc/login_bloc.dart';
+import 'package:store_flutter_clean_code_nodejs/features/auth/presentation/bloc/register_bloc/register_bloc.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -73,7 +77,13 @@ class _LoginPageState extends State<LoginPage> {
             height: 5,
           ),
           const Spacer(),
-          ReuseableButton(text: 'Done', onPressed: () {})
+          ReuseableButton(
+              text: 'Done',
+              onPressed: () {
+                BlocProvider.of<LoginBloc>(context).add(LoginUser(
+                    LoginRequestData(
+                        email: 'eldad@gmail.com', password: '111111')));
+              })
         ],
       ),
     );
