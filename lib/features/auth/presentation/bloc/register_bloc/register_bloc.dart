@@ -18,16 +18,14 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   }
 
   void onRegisterUser(RegisterUser event, Emitter<RegisterState> emit) async {
-    log('1');
     final dataState =
         await _registerUserUseCase.call(params: event.registerRequestData);
-    log('2');
-    log(dataState.error.toString());
-    log(dataState.toString());
-    
+
     if (dataState is DataSucess && dataState.data != null) {
       log('DataSucess');
       emit(RegisteredSuccessfully(dataState.data!));
+      log('a1: ${dataState.data!.id}');
+      log('a2: ${dataState.data!.name}');
     }
     if (dataState is DataFailed) {
       log('DataFailed');
