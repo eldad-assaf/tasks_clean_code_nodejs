@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:store_flutter_clean_code_nodejs/common/reuseable_button.dart';
