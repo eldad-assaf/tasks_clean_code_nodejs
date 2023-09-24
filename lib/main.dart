@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:store_flutter_clean_code_nodejs/config/routes/app_routes.dart';
-import 'package:store_flutter_clean_code_nodejs/features/auth/presentation/pages/login_page.dart';
+import 'package:store_flutter_clean_code_nodejs/features/auth/presentation/bloc/register_bloc/register_bloc.dart';
 import 'package:store_flutter_clean_code_nodejs/features/auth/presentation/pages/signup_page.dart';
+import 'package:store_flutter_clean_code_nodejs/injection_container.dart';
 
 Future<void> main() async {
-  //WidgetsFlutterBinding.ensureInitialized();
-//  await initializeDependencies();
+  WidgetsFlutterBinding.ensureInitialized();
+  await initializeDependencies();
   runApp(const MyApp());
 }
 
@@ -14,11 +16,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      //theme: theme(),
-      onGenerateRoute: AppRoutes.onGenerateRoutes,
-      home: SignupPage(),
+    return BlocProvider<RegisterBloc>(
+      create: (context) => sl(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        //theme: theme(),
+        onGenerateRoute: AppRoutes.onGenerateRoutes,
+        home: SignupPage(),
+      ),
     );
   }
 }

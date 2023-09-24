@@ -3,6 +3,10 @@ import 'package:store_flutter_clean_code_nodejs/common/reuseable_button.dart';
 import 'package:store_flutter_clean_code_nodejs/common/reuseable_text.dart';
 import 'package:store_flutter_clean_code_nodejs/config/theme/app_themes.dart';
 import 'package:store_flutter_clean_code_nodejs/common/reusable_text_field.dart';
+import 'package:store_flutter_clean_code_nodejs/features/auth/data/models/register_request_data.dart';
+import 'package:store_flutter_clean_code_nodejs/features/auth/presentation/bloc/register_bloc/register_bloc.dart';
+import 'package:store_flutter_clean_code_nodejs/injection_container.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SignupPage extends StatefulWidget {
   const SignupPage({super.key});
@@ -86,7 +90,23 @@ class _SignupPageState extends State<SignupPage> {
             maxLength: 20,
           ),
           const Spacer(),
-          ReuseableButton(text: 'Done', onPressed: () {})
+          ReuseableButton(
+              text: 'Done',
+              onPressed: () {
+                // context
+                //     .read<RegisterBloc>()
+                //     .add(RegisterUser(RegisterRequestData(
+                //       name: 'eldadTest',
+                //       email: 'Eldadtest@gmail.com',
+                //       password: '1234567',
+                //     )));
+                BlocProvider.of<RegisterBloc>(context)
+                    .add(RegisterUser(RegisterRequestData(
+                  name: 'eldadTest',
+                  email: 'Eldadtest@gmail.com',
+                  password: '1234567',
+                )));
+              })
         ],
       ),
     );
