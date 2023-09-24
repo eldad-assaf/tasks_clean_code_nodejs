@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:store_flutter_clean_code_nodejs/common/reuseable_button.dart';
 import 'package:store_flutter_clean_code_nodejs/common/reuseable_text.dart';
 import 'package:store_flutter_clean_code_nodejs/config/theme/app_themes.dart';
-import 'package:store_flutter_clean_code_nodejs/core/constants/constants.dart';
 import 'package:store_flutter_clean_code_nodejs/common/reusable_text_field.dart';
 
 class LoginPage extends StatefulWidget {
@@ -13,7 +12,6 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final TextEditingController _nameCtr = TextEditingController();
   final TextEditingController _passwordCtr = TextEditingController();
   final TextEditingController _emailCtr = TextEditingController();
 
@@ -27,7 +25,7 @@ class _LoginPageState extends State<LoginPage> {
 
   PreferredSizeWidget _buildAppBar() {
     return AppBar(
-      title: const Text(appBarTitle),
+      title: const Text('NodeJS Task App'),
     );
   }
 

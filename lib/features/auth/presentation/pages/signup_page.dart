@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:store_flutter_clean_code_nodejs/common/reuseable_button.dart';
 import 'package:store_flutter_clean_code_nodejs/common/reuseable_text.dart';
 import 'package:store_flutter_clean_code_nodejs/config/theme/app_themes.dart';
-import 'package:store_flutter_clean_code_nodejs/core/constants/constants.dart';
 import 'package:store_flutter_clean_code_nodejs/common/reusable_text_field.dart';
 
 class SignupPage extends StatefulWidget {
@@ -28,7 +27,7 @@ class _SignupPageState extends State<SignupPage> {
 
   PreferredSizeWidget _buildAppBar() {
     return AppBar(
-      title: const Text(appBarTitle),
+      title: const Text('NodeJS Task App'),
     );
   }
 
