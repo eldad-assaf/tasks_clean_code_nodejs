@@ -22,34 +22,41 @@ class _UserApiService implements UserApiService {
 
   @override
   Future<HttpResponse<UserModel>> registerUser(
-    registerRequestData,
-    contentType,
+    @Body() RegisterRequestData registerRequestData, // Specify the type
+    @Header('Content-Type')
+    String contentType, // Specify the type and add @Header annotation
   ) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{r'Content-Type': contentType};
-    _headers.removeWhere((k, v) => v == null);
-    final _data = registerRequestData;
+    final _headers = <String, dynamic>{};
+
+    // Remove the following line, it's not needed
+    // _headers.removeWhere((k, v) => v == null);
+
+    final _data = registerRequestData
+        .toJson(); // Assuming you have a toJson method in RegisterRequestData
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<HttpResponse<UserModel>>(Options(
-      method: 'POST',
-      headers: _headers,
-      extra: _extra,
-      contentType: contentType,
-    )
-            .compose(
-              _dio.options,
-              '/auth/register',
-              queryParameters: queryParameters,
-              data: _data,
-            )
-            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+      _setStreamType<HttpResponse<UserModel>>(Options(
+        method: 'POST',
+        headers: _headers,
+        extra: _extra,
+        contentType: contentType,
+      ))
+          .compose(
+            _dio.options,
+            '/auth/register',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl),
+    );
+
     final value = UserModel.fromJson(_result.data!);
     final httpResponse = HttpResponse(value, _result);
     return httpResponse;
   }
 
-  RequestOptions _setStreamType<T>(RequestOptions requestOptions) {
+  Options _setStreamType<T>(Options requestOptions) {
     if (T != dynamic &&
         !(requestOptions.responseType == ResponseType.bytes ||
             requestOptions.responseType == ResponseType.stream)) {

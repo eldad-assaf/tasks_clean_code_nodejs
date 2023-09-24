@@ -18,6 +18,8 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   }
 
   void onRegisterUser(RegisterUser event, Emitter<RegisterState> emit) async {
+
+
     final dataState =
         await _registerUserUseCase.call(params: event.registerRequestData);
 

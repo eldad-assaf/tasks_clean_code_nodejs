@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:retrofit/retrofit.dart';
 import 'package:dio/dio.dart';
 import 'package:store_flutter_clean_code_nodejs/core/constants/constants.dart';
@@ -14,4 +16,6 @@ abstract class UserApiService {
   Future<HttpResponse<UserModel>> registerUser(
       @Body() RegisterRequestData registerRequestData,
       @Header("Content-Type") String contentType);
+
+      
 }

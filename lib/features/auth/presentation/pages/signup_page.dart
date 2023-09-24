@@ -102,9 +102,9 @@ class _SignupPageState extends State<SignupPage> {
                 //     )));
                 BlocProvider.of<RegisterBloc>(context)
                     .add(RegisterUser(RegisterRequestData(
-                  name: 'eldadTest',
-                  email: 'Eldadtest@gmail.com',
-                  password: '1234567',
+                  name: 'eldadTest2',
+                  email: 'Eldadtest2@gmail.com',
+                  password: '123456',
                 )));
               })
         ],

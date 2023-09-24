@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:store_flutter_clean_code_nodejs/core/resources/data_state.dart';
@@ -18,7 +19,7 @@ class UserRepositoryImpl extends UserRepository {
     try {
       final httpResponse = await _userApiService.registerUser(
           registerRequestData, 'application/json');
-
+      log(httpResponse.response.toString());
       if (httpResponse.response.statusCode == HttpStatus.ok) {
         return DataSucess(httpResponse.data);
       } else {
