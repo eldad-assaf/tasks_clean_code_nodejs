@@ -19,7 +19,9 @@ class UserRepositoryImpl extends UserRepository {
     try {
       final httpResponse = await _userApiService.registerUser(
           registerRequestData, 'application/json');
-      log(httpResponse.response.toString());
+
+          
+      log(httpResponse.response.statusCode.toString());
       if (httpResponse.response.statusCode == HttpStatus.ok) {
         return DataSucess(httpResponse.data);
       } else {
