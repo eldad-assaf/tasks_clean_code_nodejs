@@ -36,75 +36,99 @@ class _SignupPageState extends State<SignupPage> {
   }
 
   _buildBody() {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 20, bottom: 20),
-            child: Row(
-              children: [
-                ReusableText(
-                    text: 'Sign Up',
-                    style: appStyle(20, Colors.black, FontWeight.bold)),
-                const Spacer(),
-                InkWell(
-                  onTap: () => _onGoToLoginPressed(context),
-                  child: ReusableText(
-                      text: 'Alredy have an account?',
-                      style: appStyle(16, Colors.blue, FontWeight.normal)),
-                ),
-              ],
+    return BlocListener<RegisterBloc, RegisterState>(
+      listener: (context, state) async {
+        if (state is RegistrationError) {
+          await showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                title: Text('error'),
+                content: Text(state.error!.response.toString()),
+              );
+            },
+          );
+        }
+      },
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(top: 20, bottom: 20),
+              child: Row(
+                children: [
+                  ReusableText(
+                      text: 'Sign Up',
+                      style: appStyle(20, Colors.black, FontWeight.bold)),
+                  const Spacer(),
+                  InkWell(
+                    onTap: () => _onGoToLoginPressed(context),
+                    child: ReusableText(
+                        text: 'Alredy have an account?',
+                        style: appStyle(16, Colors.blue, FontWeight.normal)),
+                  ),
+                ],
+              ),
             ),
-          ),
-          ReuseableTextField(
-            textEditController: _nameCtr,
-            hintTextString: 'Enter your name',
-            inputType: TextInputType.name,
-            maxLength: 20,
-          ),
-          const SizedBox(
-            height: 5,
-          ),
-          ReuseableTextField(
-            textEditController: _emailCtr,
-            hintTextString: 'Enter your email',
-            inputType: TextInputType.emailAddress,
-          ),
-          const SizedBox(
-            height: 5,
-          ),
-          ReuseableTextField(
-            textEditController: _passwordCtr,
-            hintTextString: 'Enter a password',
-            inputType: TextInputType.visiblePassword,
-            maxLength: 15,
-          ),
-          const SizedBox(
-            height: 5,
-          ),
-          ReuseableTextField(
-            textEditController: _password2Ctr,
-            hintTextString: 'Enter the password again',
-            inputType: TextInputType.visiblePassword,
-            maxLength: 15,
-          ),
-          const Spacer(),
-          ReuseableButton(
-              text: 'Done',
-              onPressed: () {
-                bool _validated = validateSignupForm(
-                    context, _nameCtr, _emailCtr, _passwordCtr, _password2Ctr);
-                if (_validated) {
-                  BlocProvider.of<RegisterBloc>(context)
-                      .add(RegisterUser(RegisterRequestData(
-                    name: _nameCtr.text.trim(),
-                    email: _emailCtr.text.trim(),
-                    password: _passwordCtr.text.trim(),
-                  )));
+            ReuseableTextField(
+              textEditController: _nameCtr,
+              hintTextString: 'Enter your name',
+              inputType: TextInputType.name,
+              maxLength: 20,
+            ),
+            const SizedBox(
+              height: 5,
+            ),
+            ReuseableTextField(
+              textEditController: _emailCtr,
+              hintTextString: 'Enter your email',
+              inputType: TextInputType.emailAddress,
+            ),
+            const SizedBox(
+              height: 5,
+            ),
+            ReuseableTextField(
+              textEditController: _passwordCtr,
+              hintTextString: 'Enter a password',
+              inputType: TextInputType.visiblePassword,
+              maxLength: 15,
+            ),
+            const SizedBox(
+              height: 5,
+            ),
+            ReuseableTextField(
+              textEditController: _password2Ctr,
+              hintTextString: 'Enter the password again',
+              inputType: TextInputType.visiblePassword,
+              maxLength: 15,
+            ),
+            const Spacer(),
+            BlocBuilder<RegisterBloc, RegisterState>(
+              builder: (context, state) {
+                if (state is RegisterInProgress) {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
                 }
-              })
-        ],
+                return ReuseableButton(
+                    text: 'Done',
+                    onPressed: () {
+                      bool _validated = validateSignupForm(context, _nameCtr,
+                          _emailCtr, _passwordCtr, _password2Ctr);
+                      if (_validated) {
+                        BlocProvider.of<RegisterBloc>(context)
+                            .add(RegisterUser(RegisterRequestData(
+                          name: _nameCtr.text.trim(),
+                          email: _emailCtr.text.trim(),
+                          password: _passwordCtr.text.trim(),
+                        )));
+                      }
+                    });
+              },
+            )
+          ],
+        ),
       ),
     );
   }
