@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:store_flutter_clean_code_nodejs/common/helpers/helpers.dart';
 import 'package:store_flutter_clean_code_nodejs/common/reuseable_button.dart';
 import 'package:store_flutter_clean_code_nodejs/common/reuseable_text.dart';
 import 'package:store_flutter_clean_code_nodejs/config/theme/app_themes.dart';
@@ -80,9 +81,14 @@ class _LoginPageState extends State<LoginPage> {
           ReuseableButton(
               text: 'Done',
               onPressed: () {
-                BlocProvider.of<LoginBloc>(context).add(LoginUser(
-                    LoginRequestData(
-                        email: 'eldad@gmail.com', password: '111111')));
+                bool _validated =
+                    validateLoginForm(context, _emailCtr, _passwordCtr);
+                if (_validated) {
+                  BlocProvider.of<LoginBloc>(context).add(LoginUser(
+                      LoginRequestData(
+                          email: _emailCtr.text.trim(),
+                          password: _passwordCtr.text.trim())));
+                }
               })
         ],
       ),
@@ -92,5 +98,4 @@ class _LoginPageState extends State<LoginPage> {
   void _onGoToSignupPressed(BuildContext context) {
     Navigator.pushReplacementNamed(context, '/SignupPage');
   }
-  
 }

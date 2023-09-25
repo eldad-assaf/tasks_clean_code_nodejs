@@ -93,7 +93,7 @@ class _SignupPageState extends State<SignupPage> {
           ReuseableButton(
               text: 'Done',
               onPressed: () {
-                bool _validated = validateForm(
+                bool _validated = validateSignupForm(
                     context, _nameCtr, _emailCtr, _passwordCtr, _password2Ctr);
                 if (_validated) {
                   BlocProvider.of<RegisterBloc>(context)

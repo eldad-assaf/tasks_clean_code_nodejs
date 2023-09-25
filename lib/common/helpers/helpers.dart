@@ -20,7 +20,7 @@ bool validatePasswordsAreTheSame(
   return passwordCtr.text.trim() == password2Ctr.text.trim();
 }
 
-bool validateForm(
+bool validateSignupForm(
     BuildContext context,
     TextEditingController nameCtr,
     TextEditingController emailCtr,
@@ -41,6 +41,20 @@ bool validateForm(
   }
   if (!validatePasswordsAreTheSame(passwordCtr, password2Ctr)) {
     _showSnackBar(context, 'Passwords must be the same');
+    return false;
+  } else {
+    return true;
+  }
+}
+
+bool validateLoginForm(BuildContext context, TextEditingController emailCtr,
+    TextEditingController passwordCtr) {
+  if (!validateEmail(emailCtr)) {
+    _showSnackBar(context, 'The email you entered is not valid ');
+    return false;
+  }
+  if (!validatePasswordIsMin6AndMax15Characters(passwordCtr)) {
+    _showSnackBar(context, 'Passwords must be between 6-15 characters');
     return false;
   } else {
     return true;
