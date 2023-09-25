@@ -92,4 +92,5 @@ class _LoginPageState extends State<LoginPage> {
   void _onGoToSignupPressed(BuildContext context) {
     Navigator.pushReplacementNamed(context, '/SignupPage');
   }
+  
 }

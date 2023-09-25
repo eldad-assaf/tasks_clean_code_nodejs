@@ -1,5 +1,5 @@
-
 import 'package:flutter/material.dart';
+import 'package:store_flutter_clean_code_nodejs/common/helpers/helpers.dart';
 import 'package:store_flutter_clean_code_nodejs/common/reuseable_button.dart';
 import 'package:store_flutter_clean_code_nodejs/common/reuseable_text.dart';
 import 'package:store_flutter_clean_code_nodejs/config/theme/app_themes.dart';
@@ -93,7 +93,8 @@ class _SignupPageState extends State<SignupPage> {
           ReuseableButton(
               text: 'Done',
               onPressed: () {
-                bool _validated = _validateForm();
+                bool _validated = validateForm(
+                    context, _nameCtr, _emailCtr, _passwordCtr, _password2Ctr);
                 if (_validated) {
                   BlocProvider.of<RegisterBloc>(context)
                       .add(RegisterUser(RegisterRequestData(
@@ -102,8 +103,6 @@ class _SignupPageState extends State<SignupPage> {
                     password: _passwordCtr.text.trim(),
                   )));
                 }
-
-             
               })
         ],
       ),
@@ -112,50 +111,5 @@ class _SignupPageState extends State<SignupPage> {
 
   void _onGoToLoginPressed(BuildContext context) {
     Navigator.pushReplacementNamed(context, '/LoginPage');
-  }
-
-  bool validateName() {
-    return _nameCtr.text.trim().length > 2 && _nameCtr.text.trim().length <= 20;
-  }
-
-  bool validateEmail() {
-    final emailRegex = RegExp(r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$');
-    return emailRegex.hasMatch(_emailCtr.text);
-  }
-
-  bool validatePasswordIsMin6AndMax15Characters() {
-    return _passwordCtr.text.trim().length > 5 &&
-        _passwordCtr.text.trim().length < 16;
-  }
-
-  bool validatePasswordsAreTheSame() {
-    return _passwordCtr.text.trim() == _password2Ctr.text.trim();
-  }
-
-  bool _validateForm() {
-    if (!validateName()) {
-      _showSnackBar(context, 'Name must be ');
-      return false;
-    }
-
-    if (!validateEmail()) {
-      _showSnackBar(context, 'Email must be ');
-      return false;
-    }
-    if (!validatePasswordIsMin6AndMax15Characters()) {
-      _showSnackBar(context, 'Passwords must be between 6-15 characters ');
-      return false;
-    }
-    if (!validatePasswordsAreTheSame()) {
-      _showSnackBar(context, 'Passwords must be the same ');
-      return false;
-    } else {
-      return true;
-    }
-  }
-
-  void _showSnackBar(BuildContext context, String message) {
-    final snackBar = SnackBar(content: Text(message));
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }
