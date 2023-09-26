@@ -122,8 +122,8 @@ class _$UserDao extends UserDao {
   final InsertionAdapter<UserModel> _userModelInsertionAdapter;
 
   @override
-  Future<List<UserModel>> getAllUsers() async {
-    return _queryAdapter.queryList('SELECT * FROM user',
+  Future<UserModel?> getUserData() async {
+    return _queryAdapter.query('SELECT * FROM user',
         mapper: (Map<String, Object?> row) => UserModel(
             id: row['id'] as int?,
             userUid: row['userUid'] as String?,

@@ -32,7 +32,7 @@ class UserRepositoryImpl extends UserRepository {
 
           final user = UserModel(
               userUid: httpResponse.data.userUid, name: httpResponse.data.name);
-          log('user object uid to insert on DB ${user.userUid}');
+          log('user object to insert on DB ${user.userUid}');
           await _appDatabase.userDao.insertUser(user);
         } catch (e) {
           log(e.toString());
@@ -73,18 +73,36 @@ class UserRepositoryImpl extends UserRepository {
       return DataFailed(e);
     }
   }
+//works
+  // @override
+  // Future<void> getUserDataFromDB() async {
+  //   try {
+  //     final allUsers = await _appDatabase.userDao.getAllUsers();
+  //     log('all users length : ${allUsers.length}');
+
+  //     log('first user id: ${allUsers[0].id}');
+  //     log('first user userUid: ${allUsers[0].userUid}');
+  //     log('first user name: ${allUsers[0].name}');
+  //   } catch (e) {
+  //     log(e.toString());
+  //   }
+  // }
 
   @override
-  Future<void> getUserDataFromDB() async {
+  Future<UserModel?> getUserDataFromDB() async {
     try {
-      final allUsers = await _appDatabase.userDao.getAllUsers();
-      log('all users length : ${allUsers.length}');
-
-      log('first user id: ${allUsers[0].id}');
-      log('first user userUid: ${allUsers[0].userUid}');
-      log('first user name: ${allUsers[0].name}');
+      final userData = await _appDatabase.userDao.getUserData();
+      if (userData != null) {
+        log('userData : ${userData.id}');
+        log('userData : ${userData.userUid}');
+        log('userData : ${userData.name}');
+        return userData;
+      } else {
+        return null;
+      }
     } catch (e) {
       log(e.toString());
     }
+    return null;
   }
 }

@@ -11,5 +11,5 @@ abstract class UserRepository {
   Future<DataState<UserEntity>> loginUser(
       {required LoginRequestData loginRequestData});
 
-  Future<void> getUserDataFromDB();
+  Future<UserModel?> getUserDataFromDB();
 }

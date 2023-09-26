@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
         //theme: theme(),
         onGenerateRoute: AppRoutes.onGenerateRoutes,
         home: Home(),
-        // home: SignupPage(),
+        //home: SignupPage(),
       ),
     );
   }
