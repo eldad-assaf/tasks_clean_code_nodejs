@@ -33,7 +33,8 @@ class UserRepositoryImpl extends UserRepository {
           final user = UserModel(
               userUid: httpResponse.data.userUid, name: httpResponse.data.name);
           log('user object to insert on DB ${user.userUid}');
-          await _appDatabase.userDao.insertUser(user);
+          await userToDb(userModel: user);
+          //await _appDatabase.userDao.insertUser(user);
         } catch (e) {
           log(e.toString());
         }
@@ -73,6 +74,31 @@ class UserRepositoryImpl extends UserRepository {
       return DataFailed(e);
     }
   }
+
+  Future<void> userToDb({required UserModel userModel}) async {
+// Check if the user with the fixed ID exists.
+    final existingUser =
+        await _appDatabase.userDao.findUser(UserModel.fixedUserId);
+
+    if (existingUser != null) {
+      // User already exists, update their information.
+      await _appDatabase.userDao.updateUser(userModel);
+    } else {
+      // User doesn't exist, insert a new user with the fixed ID.
+      await _appDatabase.userDao.insertUser(userModel);
+    }
+  }
+
+  @override
+  Future<UserModel?> getUserDataFromDB() async {
+    final _currentUser =
+        await _appDatabase.userDao.findUser(UserModel.fixedUserId);
+    if (_currentUser != null) {
+      log('_currentUser : ${_currentUser.userUid}');
+    }
+    return _currentUser;
+  }
+
 //works
   // @override
   // Future<void> getUserDataFromDB() async {
@@ -88,21 +114,21 @@ class UserRepositoryImpl extends UserRepository {
   //   }
   // }
 
-  @override
-  Future<UserModel?> getUserDataFromDB() async {
-    try {
-      final userData = await _appDatabase.userDao.getUserData();
-      if (userData != null) {
-        log('userData : ${userData.id}');
-        log('userData : ${userData.userUid}');
-        log('userData : ${userData.name}');
-        return userData;
-      } else {
-        return null;
-      }
-    } catch (e) {
-      log(e.toString());
-    }
-    return null;
-  }
+  // @override
+  // Future<UserModel?> getUserDataFromDB() async {
+  //   try {
+  //     final userData = await _appDatabase.userDao.getUserData();
+  //     if (userData != null) {
+  //       log('userData : ${userData.id}');
+  //       log('userData : ${userData.userUid}');
+  //       log('userData : ${userData.name}');
+  //       return userData;
+  //     } else {
+  //       return null;
+  //     }
+  //   } catch (e) {
+  //     log(e.toString());
+  //   }
+  //   return null;
+  // }
 }

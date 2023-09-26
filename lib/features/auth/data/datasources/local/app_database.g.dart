@@ -111,6 +111,15 @@ class _$UserDao extends UserDao {
                   'id': item.id,
                   'userUid': item.userUid,
                   'name': item.name
+                }),
+        _userModelUpdateAdapter = UpdateAdapter(
+            database,
+            'user',
+            ['id'],
+            (UserModel item) => <String, Object?>{
+                  'id': item.id,
+                  'userUid': item.userUid,
+                  'name': item.name
                 });
 
   final sqflite.DatabaseExecutor database;
@@ -121,17 +130,23 @@ class _$UserDao extends UserDao {
 
   final InsertionAdapter<UserModel> _userModelInsertionAdapter;
 
+  final UpdateAdapter<UserModel> _userModelUpdateAdapter;
+
   @override
-  Future<UserModel?> getUserData() async {
-    return _queryAdapter.query('SELECT * FROM user',
+  Future<UserModel?> findUser(int fixedUserId) async {
+    return _queryAdapter.query('SELECT * FROM user WHERE id = ?1',
         mapper: (Map<String, Object?> row) => UserModel(
-            id: row['id'] as int?,
-            userUid: row['userUid'] as String?,
-            name: row['name'] as String?));
+            userUid: row['userUid'] as String?, name: row['name'] as String?),
+        arguments: [fixedUserId]);
   }
 
   @override
   Future<void> insertUser(UserModel user) async {
     await _userModelInsertionAdapter.insert(user, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<void> updateUser(UserModel user) async {
+    await _userModelUpdateAdapter.update(user, OnConflictStrategy.abort);
   }
 }

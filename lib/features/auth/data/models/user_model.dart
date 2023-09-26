@@ -3,11 +3,12 @@ import 'package:store_flutter_clean_code_nodejs/features/auth/domain/entities/us
 
 @Entity(tableName: 'user', primaryKeys: ['id'])
 class UserModel extends UserEntity {
+  static const int fixedUserId = 1; // Fixed user ID.
+
   const UserModel({
-    int? id,
     String? userUid,
     String? name,
-  }) : super(id: id, userUid: userUid, name: name);
+  }) : super(id: fixedUserId, userUid: userUid, name: name);
 
   factory UserModel.fromJson(Map<String, dynamic> map) {
     return UserModel(
@@ -18,7 +19,6 @@ class UserModel extends UserEntity {
 
   factory UserModel.fromEntity(UserEntity entity) {
     return UserModel(
-      id: entity.id,
       userUid: entity.userUid,
       name: entity.name ?? '',
     );
