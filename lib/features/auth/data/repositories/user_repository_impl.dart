@@ -27,25 +27,16 @@ class UserRepositoryImpl extends UserRepository {
 
       if (httpResponse.response.statusCode == HttpStatus.created) {
         try {
-          await _appDatabase.userDao.insertPerson(UserModel(
-            id: httpResponse.data.id,
-            userUid: httpResponse.data.id.toString(),
-            name: httpResponse.data.name,
-          ));
+          log(httpResponse.data.userUid.toString());
+          log(httpResponse.data.name.toString());
 
-          final z = await _appDatabase.userDao.findAllPeople();
-          log(z.toString());
+          final user = UserModel(
+              userUid: httpResponse.data.userUid, name: httpResponse.data.name);
+          log('user object uid to insert on DB ${user.userUid}');
+          await _appDatabase.userDao.insertUser(user);
         } catch (e) {
           log(e.toString());
         }
-
-        //
-        // final dbUser = await _appDatabase.userDao.findUserModelById(1);
-        //final dbUser = await _appDatabase.userDao.getPeopleCount();
-
-        // log('${dbUser!.databaseId}');
-        // log('${dbUser.id}');
-        // log('${dbUser.name}');
 
         return DataSucess(httpResponse.data);
       } else {
@@ -80,6 +71,20 @@ class UserRepositoryImpl extends UserRepository {
       }
     } on DioException catch (e) {
       return DataFailed(e);
+    }
+  }
+
+  @override
+  Future<void> getUserDataFromDB() async {
+    try {
+      final allUsers = await _appDatabase.userDao.getAllUsers();
+      log('all users length : ${allUsers.length}');
+
+      log('first user id: ${allUsers[0].id}');
+      log('first user userUid: ${allUsers[0].userUid}');
+      log('first user name: ${allUsers[0].name}');
+    } catch (e) {
+      log(e.toString());
     }
   }
 }

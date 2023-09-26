@@ -5,15 +5,9 @@ import 'package:store_flutter_clean_code_nodejs/features/auth/data/models/user_m
 
 @dao
 abstract class UserDao {
+  @Insert()
+  Future<void> insertUser(UserModel user);
+
   @Query('SELECT * FROM user')
-  Future<List<UserModel>> findAllPeople();
-
-  @Query('SELECT name FROM user')
-  Stream<List<String>> findAllPeopleName();
-
-  @Query('SELECT * FROM user WHERE id = :id')
-  Stream<UserModel?> findPersonById(int id);
-
-  @insert
-  Future<void> insertPerson(UserModel user);
+  Future<List<UserModel>> getAllUsers();
 }

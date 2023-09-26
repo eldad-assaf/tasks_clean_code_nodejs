@@ -18,6 +18,7 @@ class UserModel extends UserEntity {
 
   factory UserModel.fromEntity(UserEntity entity) {
     return UserModel(
+      id: entity.id,
       userUid: entity.userUid,
       name: entity.name ?? '',
     );

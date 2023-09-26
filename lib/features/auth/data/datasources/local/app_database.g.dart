@@ -103,7 +103,7 @@ class _$UserDao extends UserDao {
   _$UserDao(
     this.database,
     this.changeListener,
-  )   : _queryAdapter = QueryAdapter(database, changeListener),
+  )   : _queryAdapter = QueryAdapter(database),
         _userModelInsertionAdapter = InsertionAdapter(
             database,
             'user',
@@ -111,8 +111,7 @@ class _$UserDao extends UserDao {
                   'id': item.id,
                   'userUid': item.userUid,
                   'name': item.name
-                },
-            changeListener);
+                });
 
   final sqflite.DatabaseExecutor database;
 
@@ -123,7 +122,7 @@ class _$UserDao extends UserDao {
   final InsertionAdapter<UserModel> _userModelInsertionAdapter;
 
   @override
-  Future<List<UserModel>> findAllPeople() async {
+  Future<List<UserModel>> getAllUsers() async {
     return _queryAdapter.queryList('SELECT * FROM user',
         mapper: (Map<String, Object?> row) => UserModel(
             id: row['id'] as int?,
@@ -132,27 +131,7 @@ class _$UserDao extends UserDao {
   }
 
   @override
-  Stream<List<String>> findAllPeopleName() {
-    return _queryAdapter.queryListStream('SELECT name FROM user',
-        mapper: (Map<String, Object?> row) => row.values.first as String,
-        queryableName: 'user',
-        isView: false);
-  }
-
-  @override
-  Stream<UserModel?> findPersonById(int id) {
-    return _queryAdapter.queryStream('SELECT * FROM user WHERE id = ?1',
-        mapper: (Map<String, Object?> row) => UserModel(
-            id: row['id'] as int?,
-            userUid: row['userUid'] as String?,
-            name: row['name'] as String?),
-        arguments: [id],
-        queryableName: 'user',
-        isView: false);
-  }
-
-  @override
-  Future<void> insertPerson(UserModel user) async {
+  Future<void> insertUser(UserModel user) async {
     await _userModelInsertionAdapter.insert(user, OnConflictStrategy.abort);
   }
 }
