@@ -7,6 +7,7 @@ import 'package:store_flutter_clean_code_nodejs/config/routes/app_routes.dart';
 import 'package:store_flutter_clean_code_nodejs/features/auth/data/repositories/user_repository_impl.dart';
 import 'package:store_flutter_clean_code_nodejs/features/auth/presentation/bloc/login_bloc/login_bloc.dart';
 import 'package:store_flutter_clean_code_nodejs/features/auth/presentation/bloc/register_bloc/register_bloc.dart';
+import 'package:store_flutter_clean_code_nodejs/features/auth/presentation/pages/login_page.dart';
 import 'package:store_flutter_clean_code_nodejs/features/auth/presentation/pages/signup_page.dart';
 import 'package:store_flutter_clean_code_nodejs/injection_container.dart';
 
@@ -35,7 +36,8 @@ class MyApp extends StatelessWidget {
         //theme: theme(),
         onGenerateRoute: AppRoutes.onGenerateRoutes,
         //home: Home(),
-        home: SignupPage(),
+        // home: SignupPage(),
+        home: LoginPage(),
       ),
     );
   }

@@ -22,7 +22,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       final dataState =
           await _registerUserUseCase.call(params: event.registerRequestData);
 
-      if (dataState is DataSucess && dataState.data != null) {
+      if (dataState is DataSuccess && dataState.data != null) {
         log('DataSucess from bloc');
         
         emit(RegisteredSuccessfully(dataState.data!));

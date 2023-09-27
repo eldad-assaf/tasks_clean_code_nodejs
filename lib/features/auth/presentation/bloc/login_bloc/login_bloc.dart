@@ -19,7 +19,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     final dataState =
         await _loginUserUseCase.call(params: event.loginRequestData);
 
-    if (dataState is DataSucess && dataState.data != null) {
+    if (dataState is DataSuccess && dataState.data != null) {
       log('DataSucess from bloc');
       emit(LoggedinSuccessfully(dataState.data!));
     }

@@ -8,7 +8,6 @@ import 'package:store_flutter_clean_code_nodejs/features/auth/data/datasources/u
 import 'package:store_flutter_clean_code_nodejs/features/auth/data/models/login_request_data.dart';
 import 'package:store_flutter_clean_code_nodejs/features/auth/data/models/register_request_data.dart';
 import 'package:store_flutter_clean_code_nodejs/features/auth/data/models/user_model.dart';
-import 'package:store_flutter_clean_code_nodejs/features/auth/domain/entities/user_entity.dart';
 import 'package:store_flutter_clean_code_nodejs/features/auth/domain/repositories/user_repository.dart';
 
 class UserRepositoryImpl extends UserRepository {
@@ -22,64 +21,100 @@ class UserRepositoryImpl extends UserRepository {
   );
 
   @override
-  Future<DataState<UserModel>> registerUser(
-      {required RegisterRequestData registerRequestData}) async {
+  Future<DataState<UserModel>> registerUser({
+    required RegisterRequestData registerRequestData,
+  }) async {
     try {
       final httpResponse = await _userApiService.registerUser(
-          registerRequestData, 'application/json');
+        registerRequestData,
+        'application/json',
+      );
 
       if (httpResponse.response.statusCode == HttpStatus.created) {
+        final user = UserModel(
+          userUid: httpResponse.data.userUid,
+          name: httpResponse.data.name,
+          email: httpResponse.data.email,
+          token: httpResponse.data.token,
+        );
+
+        // Save user details to local DB and secure storage
+        await saveUserInLocalDb(userModel: user);
+        await saveUserTokenToSecureStorage(token: user.token!);
+
+        return DataSuccess(httpResponse.data);
+      } else {
+        return DataFailed(
+          DioException(
+            error: httpResponse.response.statusMessage,
+            response: httpResponse.response,
+            type: DioExceptionType.badResponse,
+            requestOptions: httpResponse.response.requestOptions,
+          ),
+        );
+      }
+    } on DioException catch (e) {
+      return DataFailed(e);
+    } catch (e) {
+      return DataFailed(DioException(
+        error: 'An unexpected error occurred',
+        type: DioExceptionType.unknown,
+        requestOptions: RequestOptions(),
+      ));
+    }
+  }
+
+  @override
+  Future<DataState<UserModel>> loginUser({
+    required LoginRequestData loginRequestData,
+  }) async {
+    try {
+      final httpResponse = await _userApiService.loginUser(
+        loginRequestData,
+        'application/json',
+      );
+
+      if (httpResponse.response.statusCode == HttpStatus.ok) {
+        final user = UserModel(
+          userUid: httpResponse.data.userUid,
+          name: httpResponse.data.name,
+          email: httpResponse.data.email,
+          token: httpResponse.data.token,
+        );
+
+        // Save user details to local DB and secure storage
         try {
-
-          final user = UserModel(
-            userUid: httpResponse.data.userUid,
-            name: httpResponse.data.name,
-            email: httpResponse.data.email,
-            token: httpResponse.data.token,
-          );
-
           await saveUserInLocalDb(userModel: user);
           await saveUserTokenToSecureStorage(token: user.token!);
         } catch (e) {
           log(e.toString());
         }
 
-        return DataSucess(httpResponse.data);
+        return DataSuccess(httpResponse.data);
       } else {
-        return DataFailed(DioException(
-          error: httpResponse.response.statusMessage,
-          response: httpResponse.response,
-          type: DioExceptionType.badResponse,
-          requestOptions: httpResponse.response.requestOptions,
-        ));
+        return DataFailed(
+          DioException(
+            error: httpResponse.response.statusMessage,
+            response: httpResponse.response,
+            type: DioExceptionType.badResponse,
+            requestOptions: httpResponse.response.requestOptions,
+          ),
+        );
       }
     } on DioException catch (e) {
       return DataFailed(e);
+    } catch (e) {
+      log(e.toString());
+      return DataFailed(
+        DioException(
+            error: 'An unexpected error occurred',
+            type: DioExceptionType.unknown,
+            requestOptions: RequestOptions()),
+      );
     }
   }
 
   @override
-  Future<DataState<UserEntity>> loginUser(
-      {required LoginRequestData loginRequestData}) async {
-    try {
-      final httpResponse =
-          await _userApiService.loginUser(loginRequestData, 'application/json');
-
-      if (httpResponse.response.statusCode == HttpStatus.ok) {
-        return DataSucess(httpResponse.data);
-      } else {
-        return DataFailed(DioException(
-          error: httpResponse.response.statusMessage,
-          response: httpResponse.response,
-          type: DioExceptionType.badResponse,
-          requestOptions: httpResponse.response.requestOptions,
-        ));
-      }
-    } on DioException catch (e) {
-      return DataFailed(e);
-    }
-  }
-@override
   Future<void> saveUserInLocalDb({required UserModel userModel}) async {
 // Check if the user with the fixed ID exists.
     final existingUser =
