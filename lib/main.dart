@@ -79,26 +79,17 @@ class _HomeState extends State<Home> {
           // stream: _appDatabase.userDao
           //     .userStreamForAuthState(UserModel.fixedUserId),
           builder: (context, snapshot) {
+            log(snapshot.connectionState.toString());
             if (snapshot.connectionState == ConnectionState.active) {
-        
-
+              log(snapshot.data.toString());
               return Container(
                 child: TextButton(
-                    onPressed: () async {
-                      //await _userRepositoryImpl.getUserDataFromDB();
-                      // String? value = await _storage.read(key: 'token');
-                      //  log('token : ${value}');
-
-                      Map<String, dynamic> decodedToken =
-                          JwtDecoder.decode(token!);
-                      log(decodedToken.toString());
-                      bool hasExpired = JwtDecoder.isExpired(token!);
-                      log(hasExpired.toString());
-                    },
-                    child: Text('get data')),
+                    onPressed: () async {},
+                    child: snapshot.data == true
+                        ? Text('token is validated')
+                        : Text('token is not validated')),
               );
             } else {
-              log(snapshot.connectionState.toString());
               return Container(
                 color: Colors.red,
               );
