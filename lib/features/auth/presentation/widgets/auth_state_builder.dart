@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
@@ -39,6 +41,12 @@ class _AuthStateBuilderState extends State<AuthStateBuilder> {
   }
 
   @override
+  void dispose() {
+    log('dispose');
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: StreamBuilder<UserModel?>(
@@ -46,13 +54,19 @@ class _AuthStateBuilderState extends State<AuthStateBuilder> {
             _appDatabase.userDao.userStreamForAuthState(UserModel.fixedUserId),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.active) {
+            if (snapshot.data == null) {
+              return SignupPage();
+            }
             return FutureBuilder<bool>(
               future: _isTokenValid(tokenFromServer: snapshot.data!.token),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.done) {
                   if (snapshot.data == true) {
                     return Container(
-                      color: Colors.amber,
+                      child: Center(
+                        child: TextButton(
+                            onPressed: () {}, child: Text('test delete')),
+                      ),
                     );
                   } else {
                     return SignupPage();

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:store_flutter_clean_code_nodejs/features/auth/presentation/pages/login_page.dart';
 import 'package:store_flutter_clean_code_nodejs/features/auth/presentation/pages/signup_page.dart';
-import 'package:store_flutter_clean_code_nodejs/main.dart';
+import 'package:store_flutter_clean_code_nodejs/features/auth/presentation/widgets/auth_state_builder.dart';
 
 class AppRoutes {
   static Route onGenerateRoutes(RouteSettings settings) {

@@ -30,6 +30,7 @@ class _LoginPageState extends State<LoginPage> {
   PreferredSizeWidget _buildAppBar() {
     return AppBar(
       title: const Text('NodeJS Task App'),
+      automaticallyImplyLeading: false,
     );
   }
 

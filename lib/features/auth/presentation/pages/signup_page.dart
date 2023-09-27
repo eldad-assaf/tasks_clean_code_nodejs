@@ -32,6 +32,7 @@ class _SignupPageState extends State<SignupPage> {
   PreferredSizeWidget _buildAppBar() {
     return AppBar(
       title: const Text('NodeJS Task App'),
+      automaticallyImplyLeading: false,
     );
   }
 
@@ -134,6 +135,7 @@ class _SignupPageState extends State<SignupPage> {
   }
 
   void _onGoToLoginPressed(BuildContext context) {
-    Navigator.pushReplacementNamed(context, '/LoginPage');
+    // Navigator.pushReplacementNamed(context, '/LoginPage');
+    Navigator.pushNamed(context, '/LoginPage');
   }
 }
