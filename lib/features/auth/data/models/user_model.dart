@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:floor/floor.dart';
 import 'package:store_flutter_clean_code_nodejs/features/auth/domain/entities/user_entity.dart';
 
@@ -11,6 +13,7 @@ class UserModel extends UserEntity {
   }) : super(id: fixedUserId, userUid: userUid, name: name);
 
   factory UserModel.fromJson(Map<String, dynamic> map) {
+    log(map.toString());
     return UserModel(
       userUid: map['id'],
       name: map['user']['name'] ?? '',

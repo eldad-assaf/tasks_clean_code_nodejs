@@ -27,8 +27,10 @@ class UserRepositoryImpl extends UserRepository {
 
       if (httpResponse.response.statusCode == HttpStatus.created) {
         try {
-          log(httpResponse.data.userUid.toString());
-          log(httpResponse.data.name.toString());
+          // log(httpResponse.data.userUid.toString());
+          // log(httpResponse.data.name.toString());
+          // log(httpResponse.data.name.toString());
+          log(httpResponse.response.data);
 
           final user = UserModel(
               userUid: httpResponse.data.userUid, name: httpResponse.data.name);
@@ -61,6 +63,7 @@ class UserRepositoryImpl extends UserRepository {
           await _userApiService.loginUser(loginRequestData, 'application/json');
 
       if (httpResponse.response.statusCode == HttpStatus.ok) {
+
         return DataSucess(httpResponse.data);
       } else {
         return DataFailed(DioException(
@@ -99,36 +102,5 @@ class UserRepositoryImpl extends UserRepository {
     return _currentUser;
   }
 
-//works
-  // @override
-  // Future<void> getUserDataFromDB() async {
-  //   try {
-  //     final allUsers = await _appDatabase.userDao.getAllUsers();
-  //     log('all users length : ${allUsers.length}');
 
-  //     log('first user id: ${allUsers[0].id}');
-  //     log('first user userUid: ${allUsers[0].userUid}');
-  //     log('first user name: ${allUsers[0].name}');
-  //   } catch (e) {
-  //     log(e.toString());
-  //   }
-  // }
-
-  // @override
-  // Future<UserModel?> getUserDataFromDB() async {
-  //   try {
-  //     final userData = await _appDatabase.userDao.getUserData();
-  //     if (userData != null) {
-  //       log('userData : ${userData.id}');
-  //       log('userData : ${userData.userUid}');
-  //       log('userData : ${userData.name}');
-  //       return userData;
-  //     } else {
-  //       return null;
-  //     }
-  //   } catch (e) {
-  //     log(e.toString());
-  //   }
-  //   return null;
-  // }
 }

@@ -12,4 +12,7 @@ abstract class UserRepository {
       {required LoginRequestData loginRequestData});
 
   Future<UserModel?> getUserDataFromDB();
+
+  
+
 }
