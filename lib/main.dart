@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -7,11 +5,8 @@ import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:store_flutter_clean_code_nodejs/config/routes/app_routes.dart';
 import 'package:store_flutter_clean_code_nodejs/features/auth/data/datasources/local/app_database.dart';
 import 'package:store_flutter_clean_code_nodejs/features/auth/data/models/user_model.dart';
-import 'package:store_flutter_clean_code_nodejs/features/auth/data/repositories/user_repository_impl.dart';
-import 'package:store_flutter_clean_code_nodejs/features/auth/presentation/bloc/auth_state_cubit/auth_state_cubit.dart';
 import 'package:store_flutter_clean_code_nodejs/features/auth/presentation/bloc/login_bloc/login_bloc.dart';
 import 'package:store_flutter_clean_code_nodejs/features/auth/presentation/bloc/register_bloc/register_bloc.dart';
-import 'package:store_flutter_clean_code_nodejs/features/auth/presentation/pages/login_page.dart';
 import 'package:store_flutter_clean_code_nodejs/features/auth/presentation/pages/signup_page.dart';
 import 'package:store_flutter_clean_code_nodejs/injection_container.dart';
 
@@ -34,7 +29,6 @@ class MyApp extends StatelessWidget {
         BlocProvider<LoginBloc>(
           create: (context) => LoginBloc(sl()),
         ),
-        BlocProvider<AuthStateCubit>(create: (context) => AuthStateCubit()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -56,42 +50,58 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  late UserRepositoryImpl _userRepositoryImpl;
-  late FlutterSecureStorage _storage;
+  late FlutterSecureStorage _flutterSecureStorage;
   late AppDatabase _appDatabase;
-  late AuthStateCubit _authStateCubit;
-  late String? token;
+  // late String? tokenStoredInSecureStorage; //on the device
+
+  Future<bool> _isTokenValid({required String? tokenFromServer}) async {
+    String? tokenStoredInSecureStorage =
+        await _flutterSecureStorage.read(key: 'token');
+    if (tokenFromServer != null &&
+        tokenStoredInSecureStorage != null &&
+        tokenFromServer == tokenStoredInSecureStorage) {
+      bool hasExpired = JwtDecoder.isExpired(tokenStoredInSecureStorage);
+
+      return !hasExpired;
+    } else {
+      return false;
+    }
+  }
+
   @override
   void initState() {
-    _userRepositoryImpl = UserRepositoryImpl(sl(), sl(), sl());
-    _storage = FlutterSecureStorage();
+    _flutterSecureStorage = sl<FlutterSecureStorage>();
     _appDatabase = sl<AppDatabase>();
-    _authStateCubit = sl<AuthStateCubit>();
-
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: StreamBuilder<bool?>(
-          stream: _authStateCubit.isAuthenticated(),
-          // stream: _appDatabase.userDao
-          //     .userStreamForAuthState(UserModel.fixedUserId),
+      body: StreamBuilder<UserModel?>(
+          stream: _appDatabase.userDao
+              .userStreamForAuthState(UserModel.fixedUserId),
           builder: (context, snapshot) {
-            log(snapshot.connectionState.toString());
             if (snapshot.connectionState == ConnectionState.active) {
-              log(snapshot.data.toString());
-              return Container(
-                child: TextButton(
-                    onPressed: () async {},
-                    child: snapshot.data == true
-                        ? Text('token is validated')
-                        : Text('token is not validated')),
+              return FutureBuilder<bool>(
+                future: _isTokenValid(tokenFromServer: snapshot.data!.token),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    if (snapshot.data == true) {
+                      return Container(
+                        color: Colors.amber,
+                      );
+                    } else {
+                      return SignupPage();
+                    }
+                  } else {
+                    return Center(child: CircularProgressIndicator());
+                  }
+                },
               );
             } else {
-              return Container(
-                color: Colors.red,
+              return Center(
+                child: CircularProgressIndicator(),
               );
             }
           }),
