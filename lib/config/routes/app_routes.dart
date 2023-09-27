@@ -7,7 +7,7 @@ class AppRoutes {
   static Route onGenerateRoutes(RouteSettings settings) {
     switch (settings.name) {
       case '/':
-        return _materialRoute(const Home());
+        return _materialRoute(const AuthStateBuilder());
 
       case '/SignupPage':
         return _materialRoute(const SignupPage());
@@ -16,7 +16,7 @@ class AppRoutes {
         return _materialRoute(const LoginPage());
 
       default:
-        return _materialRoute(const Home());
+        return _materialRoute(const AuthStateBuilder());
     }
   }
 
