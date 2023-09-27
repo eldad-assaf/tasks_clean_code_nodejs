@@ -1,5 +1,8 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:store_flutter_clean_code_nodejs/config/routes/app_routes.dart';
 import 'package:store_flutter_clean_code_nodejs/features/auth/data/repositories/user_repository_impl.dart';
 import 'package:store_flutter_clean_code_nodejs/features/auth/presentation/bloc/login_bloc/login_bloc.dart';
@@ -47,9 +50,11 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   late UserRepositoryImpl _userRepositoryImpl;
+  late FlutterSecureStorage _storage;
   @override
   void initState() {
-    _userRepositoryImpl = UserRepositoryImpl(sl(), sl(),sl());
+    _userRepositoryImpl = UserRepositoryImpl(sl(), sl(), sl());
+    _storage = FlutterSecureStorage();
     super.initState();
   }
 
@@ -59,7 +64,9 @@ class _HomeState extends State<Home> {
       body: Container(
         child: TextButton(
             onPressed: () async {
-              await _userRepositoryImpl.getUserDataFromDB();
+              //await _userRepositoryImpl.getUserDataFromDB();
+              String? value = await _storage.read(key: 'token');
+              log('token : ${value}');
             },
             child: Text('get data')),
       ),

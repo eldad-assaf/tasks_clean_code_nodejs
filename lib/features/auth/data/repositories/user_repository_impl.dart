@@ -25,13 +25,11 @@ class UserRepositoryImpl extends UserRepository {
   Future<DataState<UserModel>> registerUser(
       {required RegisterRequestData registerRequestData}) async {
     try {
-      log('eldad');
       final httpResponse = await _userApiService.registerUser(
           registerRequestData, 'application/json');
 
       if (httpResponse.response.statusCode == HttpStatus.created) {
         try {
-          //   log(httpResponse.response.data);
 
           final user = UserModel(
             userUid: httpResponse.data.userUid,
@@ -40,9 +38,8 @@ class UserRepositoryImpl extends UserRepository {
             token: httpResponse.data.token,
           );
 
-          await userToDb(userModel: user);
+          await saveUserInLocalDb(userModel: user);
           await saveUserTokenToSecureStorage(token: user.token!);
-          //   await _appDatabase.userDao.insertUser(user);
         } catch (e) {
           log(e.toString());
         }
@@ -82,8 +79,8 @@ class UserRepositoryImpl extends UserRepository {
       return DataFailed(e);
     }
   }
-
-  Future<void> userToDb({required UserModel userModel}) async {
+@override
+  Future<void> saveUserInLocalDb({required UserModel userModel}) async {
 // Check if the user with the fixed ID exists.
     final existingUser =
         await _appDatabase.userDao.findUser(UserModel.fixedUserId);
@@ -98,7 +95,7 @@ class UserRepositoryImpl extends UserRepository {
   }
 
   @override
-  Future<UserModel?> getUserDataFromDB() async {
+  Future<UserModel?> getUserFromLocalDb() async {
     final _currentUser =
         await _appDatabase.userDao.findUser(UserModel.fixedUserId);
     if (_currentUser != null) {
@@ -114,5 +111,11 @@ class UserRepositoryImpl extends UserRepository {
     } catch (e) {
       log('error saving token');
     }
+  }
+
+  @override
+  Future<String?> getUserTokenFromSecureStorage() async {
+    final token = await _flutterSecureStorage.read(key: 'token');
+    return token;
   }
 }
