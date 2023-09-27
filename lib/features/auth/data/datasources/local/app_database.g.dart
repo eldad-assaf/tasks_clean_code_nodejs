@@ -103,7 +103,7 @@ class _$UserDao extends UserDao {
   _$UserDao(
     this.database,
     this.changeListener,
-  )   : _queryAdapter = QueryAdapter(database),
+  )   : _queryAdapter = QueryAdapter(database, changeListener),
         _userModelInsertionAdapter = InsertionAdapter(
             database,
             'user',
@@ -113,7 +113,8 @@ class _$UserDao extends UserDao {
                   'name': item.name,
                   'email': item.email,
                   'token': item.token
-                }),
+                },
+            changeListener),
         _userModelUpdateAdapter = UpdateAdapter(
             database,
             'user',
@@ -124,7 +125,8 @@ class _$UserDao extends UserDao {
                   'name': item.name,
                   'email': item.email,
                   'token': item.token
-                });
+                },
+            changeListener);
 
   final sqflite.DatabaseExecutor database;
 
@@ -145,6 +147,19 @@ class _$UserDao extends UserDao {
             email: row['email'] as String?,
             token: row['token'] as String?),
         arguments: [fixedUserId]);
+  }
+
+  @override
+  Stream<UserModel?> userStreamForAuthState(int fixedUserId) {
+    return _queryAdapter.queryStream('SELECT * FROM user WHERE id = ?1',
+        mapper: (Map<String, Object?> row) => UserModel(
+            userUid: row['userUid'] as String?,
+            name: row['name'] as String?,
+            email: row['email'] as String?,
+            token: row['token'] as String?),
+        arguments: [fixedUserId],
+        queryableName: 'user',
+        isView: false);
   }
 
   @override

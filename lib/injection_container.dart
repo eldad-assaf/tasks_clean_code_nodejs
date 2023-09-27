@@ -7,6 +7,7 @@ import 'package:store_flutter_clean_code_nodejs/features/auth/data/repositories/
 import 'package:store_flutter_clean_code_nodejs/features/auth/domain/repositories/user_repository.dart';
 import 'package:store_flutter_clean_code_nodejs/features/auth/domain/usecases/login_user.dart';
 import 'package:store_flutter_clean_code_nodejs/features/auth/domain/usecases/register_user.dart';
+import 'package:store_flutter_clean_code_nodejs/features/auth/presentation/bloc/auth_state_cubit/auth_state_cubit.dart';
 import 'package:store_flutter_clean_code_nodejs/features/auth/presentation/bloc/login_bloc/login_bloc.dart';
 import 'package:store_flutter_clean_code_nodejs/features/auth/presentation/bloc/register_bloc/register_bloc.dart';
 
@@ -30,4 +31,5 @@ Future<void> initializeDependencies() async {
   //Blocs
   sl.registerFactory<RegisterBloc>(() => RegisterBloc(sl()));
   sl.registerFactory<LoginBloc>(() => LoginBloc(sl()));
+  sl.registerFactory<AuthStateCubit>(() => AuthStateCubit());
 }
