@@ -107,12 +107,63 @@ class UserRepositoryImpl extends UserRepository {
       log(e.toString());
       return DataFailed(
         DioException(
-            error: 'An unexpected error occurred',
-            type: DioExceptionType.unknown,
-            requestOptions: RequestOptions()),
+          error: 'An unexpected error occurred',
+          type: DioExceptionType.unknown,
+          requestOptions: RequestOptions(),
+        ),
       );
     }
   }
+
+  // @override
+  // Future<DataState<UserModel>> loginUser({
+  //   required LoginRequestData loginRequestData,
+  // }) async {
+  //   try {
+  //     final httpResponse = await _userApiService.loginUser(
+  //       loginRequestData,
+  //       'application/json',
+  //     );
+
+  //     if (httpResponse.response.statusCode == HttpStatus.ok) {
+  //       final user = UserModel(
+  //         userUid: httpResponse.data.userUid,
+  //         name: httpResponse.data.name,
+  //         email: httpResponse.data.email,
+  //         token: httpResponse.data.token,
+  //       );
+
+  //       // Save user details to local DB and secure storage
+  //       try {
+  //         await saveUserInLocalDb(userModel: user);
+  //         await saveUserTokenToSecureStorage(token: user.token!);
+  //       } catch (e) {
+  //         log(e.toString());
+  //       }
+
+  //       return DataSuccess(httpResponse.data);
+  //     } else {
+  //       return DataFailed(
+  //         DioException(
+  //           error: httpResponse.response.statusMessage,
+  //           response: httpResponse.response,
+  //           type: DioExceptionType.badResponse,
+  //           requestOptions: httpResponse.response.requestOptions,
+  //         ),
+  //       );
+  //     }
+  //   } on DioException catch (e) {
+  //     return DataFailed(e);
+  //   } catch (e) {
+  //     log(e.toString());
+  //     return DataFailed(
+  //       DioException(
+  //           error: 'An unexpected error occurred',
+  //           type: DioExceptionType.unknown,
+  //           requestOptions: RequestOptions()),
+  //     );
+  //   }
+  // }
 
   @override
   Future<void> saveUserInLocalDb({required UserModel userModel}) async {
