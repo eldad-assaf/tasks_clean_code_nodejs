@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:store_flutter_clean_code_nodejs/features/auth/data/datasources/local/app_database.dart';
 import 'package:store_flutter_clean_code_nodejs/features/auth/data/datasources/user_api_service.dart';
@@ -16,10 +17,11 @@ Future<void> initializeDependencies() async {
       await $FloorAppDatabase.databaseBuilder('app_database.db').build();
   sl.registerSingleton(database);
   sl.registerSingleton<Dio>(Dio());
+  sl.registerSingleton<FlutterSecureStorage>(FlutterSecureStorage());
 
   //Dependencies
   sl.registerSingleton<UserApiService>(UserApiService(sl()));
-  sl.registerSingleton<UserRepository>(UserRepositoryImpl(sl(),sl()));
+  sl.registerSingleton<UserRepository>(UserRepositoryImpl(sl(), sl(), sl()));
 
   //UseCases
   sl.registerSingleton<RegisterUserUseCase>(RegisterUserUseCase(sl()));

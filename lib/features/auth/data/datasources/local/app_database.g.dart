@@ -85,7 +85,7 @@ class _$AppDatabase extends AppDatabase {
       },
       onCreate: (database, version) async {
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `user` (`id` INTEGER, `userUid` TEXT, `name` TEXT, PRIMARY KEY (`id`))');
+            'CREATE TABLE IF NOT EXISTS `user` (`id` INTEGER, `userUid` TEXT, `name` TEXT, `email` TEXT, `token` TEXT, PRIMARY KEY (`id`))');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -110,7 +110,9 @@ class _$UserDao extends UserDao {
             (UserModel item) => <String, Object?>{
                   'id': item.id,
                   'userUid': item.userUid,
-                  'name': item.name
+                  'name': item.name,
+                  'email': item.email,
+                  'token': item.token
                 }),
         _userModelUpdateAdapter = UpdateAdapter(
             database,
@@ -119,7 +121,9 @@ class _$UserDao extends UserDao {
             (UserModel item) => <String, Object?>{
                   'id': item.id,
                   'userUid': item.userUid,
-                  'name': item.name
+                  'name': item.name,
+                  'email': item.email,
+                  'token': item.token
                 });
 
   final sqflite.DatabaseExecutor database;
@@ -136,7 +140,10 @@ class _$UserDao extends UserDao {
   Future<UserModel?> findUser(int fixedUserId) async {
     return _queryAdapter.query('SELECT * FROM user WHERE id = ?1',
         mapper: (Map<String, Object?> row) => UserModel(
-            userUid: row['userUid'] as String?, name: row['name'] as String?),
+            userUid: row['userUid'] as String?,
+            name: row['name'] as String?,
+            email: row['email'] as String?,
+            token: row['token'] as String?),
         arguments: [fixedUserId]);
   }
 

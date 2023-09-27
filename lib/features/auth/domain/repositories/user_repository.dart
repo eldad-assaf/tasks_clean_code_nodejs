@@ -13,6 +13,5 @@ abstract class UserRepository {
 
   Future<UserModel?> getUserDataFromDB();
 
-  
-
+  Future<void> saveUserTokenToSecureStorage({required String token});
 }

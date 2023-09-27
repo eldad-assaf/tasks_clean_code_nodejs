@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'dart:io';
 import 'package:dio/dio.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:store_flutter_clean_code_nodejs/core/resources/data_state.dart';
 import 'package:store_flutter_clean_code_nodejs/features/auth/data/datasources/local/app_database.dart';
 import 'package:store_flutter_clean_code_nodejs/features/auth/data/datasources/user_api_service.dart';
@@ -13,30 +14,35 @@ import 'package:store_flutter_clean_code_nodejs/features/auth/domain/repositorie
 class UserRepositoryImpl extends UserRepository {
   final UserApiService _userApiService;
   final AppDatabase _appDatabase;
+  final FlutterSecureStorage _flutterSecureStorage;
   UserRepositoryImpl(
     this._userApiService,
     this._appDatabase,
+    this._flutterSecureStorage,
   );
 
   @override
   Future<DataState<UserModel>> registerUser(
       {required RegisterRequestData registerRequestData}) async {
     try {
+      log('eldad');
       final httpResponse = await _userApiService.registerUser(
           registerRequestData, 'application/json');
 
       if (httpResponse.response.statusCode == HttpStatus.created) {
         try {
-          // log(httpResponse.data.userUid.toString());
-          // log(httpResponse.data.name.toString());
-          // log(httpResponse.data.name.toString());
-          log(httpResponse.response.data);
+          //   log(httpResponse.response.data);
 
           final user = UserModel(
-              userUid: httpResponse.data.userUid, name: httpResponse.data.name);
-          log('user object to insert on DB ${user.userUid}');
+            userUid: httpResponse.data.userUid,
+            name: httpResponse.data.name,
+            email: httpResponse.data.email,
+            token: httpResponse.data.token,
+          );
+
           await userToDb(userModel: user);
-          //await _appDatabase.userDao.insertUser(user);
+          await saveUserTokenToSecureStorage(token: user.token!);
+          //   await _appDatabase.userDao.insertUser(user);
         } catch (e) {
           log(e.toString());
         }
@@ -63,7 +69,6 @@ class UserRepositoryImpl extends UserRepository {
           await _userApiService.loginUser(loginRequestData, 'application/json');
 
       if (httpResponse.response.statusCode == HttpStatus.ok) {
-
         return DataSucess(httpResponse.data);
       } else {
         return DataFailed(DioException(
@@ -102,5 +107,12 @@ class UserRepositoryImpl extends UserRepository {
     return _currentUser;
   }
 
-
+  @override
+  Future<void> saveUserTokenToSecureStorage({required String token}) async {
+    try {
+      await _flutterSecureStorage.write(key: 'token', value: token);
+    } catch (e) {
+      log('error saving token');
+    }
+  }
 }

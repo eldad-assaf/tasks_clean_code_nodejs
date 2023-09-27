@@ -49,7 +49,7 @@ class _HomeState extends State<Home> {
   late UserRepositoryImpl _userRepositoryImpl;
   @override
   void initState() {
-    _userRepositoryImpl = UserRepositoryImpl(sl(), sl());
+    _userRepositoryImpl = UserRepositoryImpl(sl(), sl(),sl());
     super.initState();
   }
 
