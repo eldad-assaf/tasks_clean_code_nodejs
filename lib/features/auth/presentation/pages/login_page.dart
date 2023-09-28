@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:store_flutter_clean_code_nodejs/common/helpers/helpers.dart';
@@ -35,62 +37,82 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   _buildBody() {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 20, bottom: 20),
-            child: Row(
-              children: [
-                ReusableText(
-                    text: 'Login',
-                    style: appStyle(20, Colors.black, FontWeight.bold)),
-                const Spacer(),
-                InkWell(
-                  onTap: () => _onGoToSignupPressed(context),
-                  child: ReusableText(
-                      text: 'First time?\nCreate an account',
-                      maxLines: 2,
-                      style: appStyle(16, Colors.blue, FontWeight.normal)),
-                ),
-              ],
+    return BlocListener<LoginBloc, LoginState>(
+      listener: (context, state) async {
+        if (state is LoginError) {
+          await showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                title: Text('error'),
+                // content: Text(state.error!.response.toString()),
+                content: Text(state.error!.message.toString()),
+              );
+            },
+          );
+        }
+        if (state is LoggedinSuccessfully) {
+          log('state is LoggedinSuccessfully');
+          Navigator.of(context).pushReplacementNamed('/HomePage');
+        }
+      },
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(top: 20, bottom: 20),
+              child: Row(
+                children: [
+                  ReusableText(
+                      text: 'Login',
+                      style: appStyle(20, Colors.black, FontWeight.bold)),
+                  const Spacer(),
+                  InkWell(
+                    onTap: () => _onGoToSignupPressed(context),
+                    child: ReusableText(
+                        text: 'First time?\nCreate an account',
+                        maxLines: 2,
+                        style: appStyle(16, Colors.blue, FontWeight.normal)),
+                  ),
+                ],
+              ),
             ),
-          ),
-          const SizedBox(
-            height: 5,
-          ),
-          ReuseableTextField(
-            textEditController: _emailCtr,
-            hintTextString: 'Enter your email',
-            inputType: TextInputType.emailAddress,
-          ),
-          const SizedBox(
-            height: 5,
-          ),
-          ReuseableTextField(
-            textEditController: _passwordCtr,
-            hintTextString: 'Enter  password',
-            inputType: TextInputType.visiblePassword,
-            maxLength: 20,
-          ),
-          const SizedBox(
-            height: 5,
-          ),
-          const Spacer(),
-          ReuseableButton(
-              text: 'Done',
-              onPressed: () {
-                bool _validated =
-                    validateLoginForm(context, _emailCtr, _passwordCtr);
-                if (_validated) {
-                  BlocProvider.of<LoginBloc>(context).add(LoginUser(
-                      LoginRequestData(
-                          email: _emailCtr.text.trim(),
-                          password: _passwordCtr.text.trim())));
-                }
-              })
-        ],
+            const SizedBox(
+              height: 5,
+            ),
+            ReuseableTextField(
+              textEditController: _emailCtr,
+              hintTextString: 'Enter your email',
+              inputType: TextInputType.emailAddress,
+            ),
+            const SizedBox(
+              height: 5,
+            ),
+            ReuseableTextField(
+              textEditController: _passwordCtr,
+              hintTextString: 'Enter  password',
+              inputType: TextInputType.visiblePassword,
+              maxLength: 20,
+            ),
+            const SizedBox(
+              height: 5,
+            ),
+            const Spacer(),
+            ReuseableButton(
+                text: 'Done',
+                onPressed: () {
+                  bool _validated =
+                      validateLoginForm(context, _emailCtr, _passwordCtr);
+                  if (_validated) {
+                    BlocProvider.of<LoginBloc>(context).add(LoginUser(
+                        LoginRequestData(
+                            email: _emailCtr.text.trim(),
+                            password: _passwordCtr.text.trim())));
+                  }
+                })
+          ],
+        ),
       ),
     );
   }

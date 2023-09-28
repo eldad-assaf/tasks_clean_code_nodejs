@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:store_flutter_clean_code_nodejs/common/helpers/helpers.dart';
 import 'package:store_flutter_clean_code_nodejs/common/reuseable_button.dart';
@@ -45,10 +47,15 @@ class _SignupPageState extends State<SignupPage> {
             builder: (context) {
               return AlertDialog(
                 title: Text('error'),
-                content: Text(state.error!.response.toString()),
+                // content: Text(state.error!.response.toString()),
+                content: Text(state.error!.message.toString()),
               );
             },
           );
+        }
+        if (state is RegisteredSuccessfully) {
+          log('state is RegisteredSuccessfully');
+          Navigator.of(context).pushReplacementNamed('/HomePage');
         }
       },
       child: Padding(
