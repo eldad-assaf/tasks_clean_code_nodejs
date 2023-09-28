@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:store_flutter_clean_code_nodejs/features/tasks/domain/entities/task_entity.dart';
 
 class TaskModel extends TaskEntity {
