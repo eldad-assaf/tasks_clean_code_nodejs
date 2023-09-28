@@ -4,7 +4,7 @@ import 'package:store_flutter_clean_code_nodejs/features/tasks/domain/entities/t
 
 class TaskModel extends TaskEntity {
   TaskModel({
-    int? id,
+    String? id,
     String? name,
     bool? completed,
   }) : super(
@@ -13,25 +13,17 @@ class TaskModel extends TaskEntity {
           completed: completed,
         );
 
-         factory TaskModel.fromJson(Map<String, dynamic> map) {
+  factory TaskModel.fromJson(Map<String, dynamic> map) {
     log(map.toString());
     return TaskModel(
-      id: map['id'],
-      name: map['user']['name'] ?? '',
-      email: map['user']['email'] ?? '',
-      token: map['token'] ?? '',
-    );
+        id: map['id'], name: map['name'], completed: map['completed']);
   }
 
   factory TaskModel.fromEntity(TaskEntity entity) {
     return TaskModel(
-        userUid: entity.userUid,
-        name: entity.name ?? '',
-        email: entity.email ?? '',
-        token: entity.token ?? '');
+      id: entity.id,
+      name: entity.name,
+      completed: entity.completed,
+    );
   }
 }
-
-
-
-

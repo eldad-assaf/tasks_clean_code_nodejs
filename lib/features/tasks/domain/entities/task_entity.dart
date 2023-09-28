@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 class TaskEntity extends Equatable {
-  final int? id;
+  final String? id;
   final String? name;
   final bool? completed;
   TaskEntity({
