@@ -10,6 +10,10 @@ import 'package:store_flutter_clean_code_nodejs/features/auth/domain/usecases/lo
 import 'package:store_flutter_clean_code_nodejs/features/auth/domain/usecases/register_user.dart';
 import 'package:store_flutter_clean_code_nodejs/features/auth/presentation/bloc/login_bloc/login_bloc.dart';
 import 'package:store_flutter_clean_code_nodejs/features/auth/presentation/bloc/register_bloc/register_bloc.dart';
+import 'package:store_flutter_clean_code_nodejs/features/tasks/data/datasources/tasks_api_service.dart';
+import 'package:store_flutter_clean_code_nodejs/features/tasks/data/repositories/tasks_repository_impl.dart';
+import 'package:store_flutter_clean_code_nodejs/features/tasks/domain/repositories/tasks_repository.dart';
+import 'package:store_flutter_clean_code_nodejs/features/tasks/domain/usecases/get_all_tasks.dart';
 
 final sl = GetIt.instance;
 
@@ -23,13 +27,17 @@ Future<void> initializeDependencies() async {
   //Dependencies
   sl.registerSingleton<UserApiService>(UserApiService(sl()));
   sl.registerSingleton<UserRepository>(UserRepositoryImpl(sl(), sl(), sl()));
+  sl.registerSingleton<TasksApiService>(TasksApiService(sl()));
+  sl.registerSingleton<TasksRepository>(TasksRepositoryImpl(sl(), sl()));
 
   //UseCases
   sl.registerSingleton<RegisterUserUseCase>(RegisterUserUseCase(sl()));
   sl.registerSingleton<LoginUserUseCase>(LoginUserUseCase(sl()));
   sl.registerSingleton<LogoutUserUseCase>(LogoutUserUseCase(sl()));
+  sl.registerSingleton<GetAllTasksUsecase>(GetAllTasksUsecase(sl()));
 
   //Blocs
   sl.registerFactory<RegisterBloc>(() => RegisterBloc(sl()));
   sl.registerFactory<LoginBloc>(() => LoginBloc(sl(), sl()));
+  
 }

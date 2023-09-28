@@ -4,11 +4,11 @@ import 'package:store_flutter_clean_code_nodejs/features/tasks/data/models/task_
 import 'package:store_flutter_clean_code_nodejs/features/tasks/domain/entities/task_entity.dart';
 import 'package:store_flutter_clean_code_nodejs/features/tasks/domain/repositories/tasks_repository.dart';
 
-class GetAllTasks implements UseCase<DataState<List<TaskEntity>>, void> {
-  final TaskRepository _taskRepository;
-  GetAllTasks(this._taskRepository);
+class GetAllTasksUsecase implements UseCase<DataState<List<TaskEntity>>, void> {
+  final TasksRepository _tasksRepository;
+  GetAllTasksUsecase(this._tasksRepository);
   @override
   Future<DataState<List<TaskEntity>>> call({void params}) {
-    return _taskRepository.getAllTasks();
+    return _tasksRepository.getAllTasks();
   }
 }
