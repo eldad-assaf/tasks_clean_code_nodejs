@@ -11,7 +11,14 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.amber,
+      appBar: _buildAppBar(),
+    );
+  }
+
+  PreferredSizeWidget _buildAppBar() {
+    return AppBar(
+      title: const Text('NodeJS Task App'),
+      automaticallyImplyLeading: false,
     );
   }
 }
