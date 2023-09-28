@@ -8,7 +8,12 @@ class LoginUser extends LoginEvent {
   final LoginRequestData? loginRequestData;
 
   const LoginUser(this.loginRequestData);
-  
+
   @override
   List<Object?> get props => [loginRequestData];
+}
+
+class LogoutUser extends LoginEvent {
+  @override
+  List<Object?> get props => [];
 }

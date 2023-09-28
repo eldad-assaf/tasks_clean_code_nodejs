@@ -6,6 +6,7 @@ import 'package:store_flutter_clean_code_nodejs/features/auth/data/datasources/u
 import 'package:store_flutter_clean_code_nodejs/features/auth/data/repositories/user_repository_impl.dart';
 import 'package:store_flutter_clean_code_nodejs/features/auth/domain/repositories/user_repository.dart';
 import 'package:store_flutter_clean_code_nodejs/features/auth/domain/usecases/login_user.dart';
+import 'package:store_flutter_clean_code_nodejs/features/auth/domain/usecases/logout_user.dart';
 import 'package:store_flutter_clean_code_nodejs/features/auth/domain/usecases/register_user.dart';
 import 'package:store_flutter_clean_code_nodejs/features/auth/presentation/bloc/login_bloc/login_bloc.dart';
 import 'package:store_flutter_clean_code_nodejs/features/auth/presentation/bloc/register_bloc/register_bloc.dart';
@@ -26,8 +27,9 @@ Future<void> initializeDependencies() async {
   //UseCases
   sl.registerSingleton<RegisterUserUseCase>(RegisterUserUseCase(sl()));
   sl.registerSingleton<LoginUserUseCase>(LoginUserUseCase(sl()));
+  sl.registerSingleton<LogoutUserUseCase>(LogoutUserUseCase(sl()));
 
   //Blocs
   sl.registerFactory<RegisterBloc>(() => RegisterBloc(sl()));
-  sl.registerFactory<LoginBloc>(() => LoginBloc(sl()));
+  sl.registerFactory<LoginBloc>(() => LoginBloc(sl(), sl()));
 }

@@ -23,6 +23,18 @@ class LoggedinSuccessfully extends LoginState {
       : super(userEntity: userEntity);
 }
 
+class LogoutInProgress extends LoginState {
+  const LogoutInProgress();
+}
+
+class LogoutSuccessfully extends LoginState {
+  const LogoutSuccessfully();
+}
+
+class LogoutError extends LoginState {
+  const LogoutError();
+}
+
 class LoginError extends LoginState {
   const LoginError(DioException error) : super(error: error);
 }

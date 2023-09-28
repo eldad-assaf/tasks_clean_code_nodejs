@@ -11,12 +11,11 @@ abstract class UserRepository {
   Future<DataState<UserEntity>> loginUser(
       {required LoginRequestData loginRequestData});
 
+  Future<bool> logoutUser();
+
   Future<void> saveUserInLocalDb({required UserModel userModel});
   Future<UserModel?> getUserFromLocalDb();
 
   Future<void> saveUserTokenToSecureStorage({required String token});
   Future<String?> getUserTokenFromSecureStorage();
-  
-
-
 }

@@ -6,16 +6,21 @@ import 'package:store_flutter_clean_code_nodejs/core/resources/data_state.dart';
 import 'package:store_flutter_clean_code_nodejs/features/auth/data/models/login_request_data.dart';
 import 'package:store_flutter_clean_code_nodejs/features/auth/domain/entities/user_entity.dart';
 import 'package:store_flutter_clean_code_nodejs/features/auth/domain/usecases/login_user.dart';
+import 'package:store_flutter_clean_code_nodejs/features/auth/domain/usecases/logout_user.dart';
 part 'login_event.dart';
 part 'login_state.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final LoginUserUseCase _loginUserUseCase;
-  LoginBloc(this._loginUserUseCase) : super(LoginInitial()) {
+  final LogoutUserUseCase _logoutUserUseCase;
+  LoginBloc(this._loginUserUseCase, this._logoutUserUseCase)
+      : super(LoginInitial()) {
     on<LoginUser>(onLoginUser);
+    on<LogoutUser>(onLogoutUser);
   }
 
   void onLoginUser(LoginUser event, Emitter<LoginState> emit) async {
+    emit(LoginInProgress());
     final dataState =
         await _loginUserUseCase.call(params: event.loginRequestData);
 
@@ -26,6 +31,16 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     if (dataState is DataFailed) {
       log('DataFailed from bloc');
       emit(LoginError(dataState.error!));
+    }
+  }
+
+  void onLogoutUser(LogoutUser event, Emitter<LoginState> emit) async {
+    emit(LogoutInProgress());
+    final logoutSuccess = await _logoutUserUseCase.call();
+    if (logoutSuccess) {
+      emit(LogoutSuccessfully());
+    } else {
+      emit((LogoutError()));
     }
   }
 }

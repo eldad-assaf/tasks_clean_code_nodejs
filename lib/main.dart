@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
           create: (context) => sl(),
         ),
         BlocProvider<LoginBloc>(
-          create: (context) => LoginBloc(sl()),
+          create: (context) => LoginBloc(sl(),sl()),
         ),
       ],
       child: MaterialApp(

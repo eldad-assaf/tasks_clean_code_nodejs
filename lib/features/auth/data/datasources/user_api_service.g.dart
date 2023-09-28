@@ -10,8 +10,9 @@ part of 'user_api_service.dart';
 
 class _UserApiService implements UserApiService {
   _UserApiService(
-    this._dio,
-  ) {
+    this._dio, {
+    this.baseUrl,
+  }) {
     baseUrl ??= 'http://localhost:3005/api/v1';
   }
 
