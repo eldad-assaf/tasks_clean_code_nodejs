@@ -1,19 +1,19 @@
-// // GENERATED CODE - DO NOT MODIFY BY HAND
+// GENERATED CODE - DO NOT MODIFY BY HAND
 
-// part of 'task_model.dart';
+part of 'task_model.dart';
 
-// // **************************************************************************
-// // JsonSerializableGenerator
-// // **************************************************************************
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
 
-// TaskModel _$TaskModelFromJson(Map<String, dynamic> json) => TaskModel(
-//       id: json['id'] as String?,
-//       name: json['name'] as String?,
-//       completed: json['completed'] as bool?,
-//     );
+TaskModel _$TaskModelFromJson(Map<String, dynamic> json) => TaskModel(
+      id: json['id'] as String?,
+      name: json['name'] as String?,
+      completed: json['completed'] as bool?,
+    );
 
-// Map<String, dynamic> _$TaskModelToJson(TaskModel instance) => <String, dynamic>{
-//       'id': instance.id,
-//       'name': instance.name,
-//       'completed': instance.completed,
-//     };
+Map<String, dynamic> _$TaskModelToJson(TaskModel instance) => <String, dynamic>{
+      'id': instance.id,
+      'name': instance.name,
+      'completed': instance.completed,
+    };

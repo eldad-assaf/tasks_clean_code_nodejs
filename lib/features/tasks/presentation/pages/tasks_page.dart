@@ -15,7 +15,21 @@ class _TasksPage extends State<TasksPage> {
     return BlocBuilder<TasksBloc, TasksState>(
       builder: (context, state) {
         log(state.toString());
-        return Container();
+        if (state.tasks != null) {
+          return Container(
+            child: ListView.builder(
+              itemCount: state.tasks!.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                    title: Text(state.tasks![index].name.toString()));
+              },
+            ),
+          );
+        } else {
+          return Container(
+            color: Colors.amber,
+          );
+        }
       },
     );
   }
