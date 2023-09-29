@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
           create: (context) => LoginBloc(sl(), sl()),
         ),
         BlocProvider<TasksBloc>(
-          create: (context) => TasksBloc(sl())..add(GetTasks()),
+          create: (context) => TasksBloc(sl(), sl())..add(GetTasksEvent()),
         ),
       ],
       child: MaterialApp(

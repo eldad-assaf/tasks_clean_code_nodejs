@@ -4,11 +4,11 @@ abstract class RegisterEvent extends Equatable {
   const RegisterEvent();
 }
 
-class RegisterUser extends RegisterEvent {
-  final RegisterRequestData? registerRequestData;
+class RegisterUserEvent extends RegisterEvent {
+  final RegisterRequest? registerRequest;
 
-  const RegisterUser(this.registerRequestData);
-  
+  const RegisterUserEvent(this.registerRequest);
+
   @override
-  List<Object?> get props => [registerRequestData];
+  List<Object?> get props => [registerRequest];
 }

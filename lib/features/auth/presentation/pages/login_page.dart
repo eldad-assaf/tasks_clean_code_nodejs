@@ -7,7 +7,7 @@ import 'package:store_flutter_clean_code_nodejs/common/reuseable_button.dart';
 import 'package:store_flutter_clean_code_nodejs/common/reuseable_text.dart';
 import 'package:store_flutter_clean_code_nodejs/config/theme/app_themes.dart';
 import 'package:store_flutter_clean_code_nodejs/common/reusable_text_field.dart';
-import 'package:store_flutter_clean_code_nodejs/features/auth/data/models/login_request_data.dart';
+import 'package:store_flutter_clean_code_nodejs/features/auth/data/models/login_request.dart';
 import 'package:store_flutter_clean_code_nodejs/features/auth/presentation/bloc/login_bloc/login_bloc.dart';
 
 class LoginPage extends StatefulWidget {
@@ -105,8 +105,8 @@ class _LoginPageState extends State<LoginPage> {
                   bool _validated =
                       validateLoginForm(context, _emailCtr, _passwordCtr);
                   if (_validated) {
-                    BlocProvider.of<LoginBloc>(context).add(LoginUser(
-                        LoginRequestData(
+                    BlocProvider.of<LoginBloc>(context).add(LoginUserEvent(
+                        LoginRequest(
                             email: _emailCtr.text.trim(),
                             password: _passwordCtr.text.trim())));
                   }

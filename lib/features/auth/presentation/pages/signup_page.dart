@@ -6,7 +6,7 @@ import 'package:store_flutter_clean_code_nodejs/common/reuseable_button.dart';
 import 'package:store_flutter_clean_code_nodejs/common/reuseable_text.dart';
 import 'package:store_flutter_clean_code_nodejs/config/theme/app_themes.dart';
 import 'package:store_flutter_clean_code_nodejs/common/reusable_text_field.dart';
-import 'package:store_flutter_clean_code_nodejs/features/auth/data/models/register_request_data.dart';
+import 'package:store_flutter_clean_code_nodejs/features/auth/data/models/register_request.dart';
 import 'package:store_flutter_clean_code_nodejs/features/auth/presentation/bloc/register_bloc/register_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -126,7 +126,7 @@ class _SignupPageState extends State<SignupPage> {
                           _emailCtr, _passwordCtr, _password2Ctr);
                       if (_validated) {
                         BlocProvider.of<RegisterBloc>(context)
-                            .add(RegisterUser(RegisterRequestData(
+                            .add(RegisterUserEvent(RegisterRequest(
                           name: _nameCtr.text.trim(),
                           email: _emailCtr.text.trim(),
                           password: _passwordCtr.text.trim(),

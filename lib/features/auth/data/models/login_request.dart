@@ -1,10 +1,9 @@
-
 //**This is the body of the http post request to register a NEW user */
-class LoginRequestData {
+class LoginRequest {
   final String email;
   final String password;
 
-  LoginRequestData({
+  LoginRequest({
     required this.email,
     required this.password,
   });
@@ -16,4 +15,3 @@ class LoginRequestData {
     };
   }
 }
-

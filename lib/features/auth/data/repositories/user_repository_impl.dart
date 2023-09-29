@@ -5,8 +5,8 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:store_flutter_clean_code_nodejs/core/resources/data_state.dart';
 import 'package:store_flutter_clean_code_nodejs/features/auth/data/datasources/local/app_database.dart';
 import 'package:store_flutter_clean_code_nodejs/features/auth/data/datasources/user_api_service.dart';
-import 'package:store_flutter_clean_code_nodejs/features/auth/data/models/login_request_data.dart';
-import 'package:store_flutter_clean_code_nodejs/features/auth/data/models/register_request_data.dart';
+import 'package:store_flutter_clean_code_nodejs/features/auth/data/models/login_request.dart';
+import 'package:store_flutter_clean_code_nodejs/features/auth/data/models/register_request.dart';
 import 'package:store_flutter_clean_code_nodejs/features/auth/data/models/user_model.dart';
 import 'package:store_flutter_clean_code_nodejs/features/auth/domain/repositories/user_repository.dart';
 
@@ -22,7 +22,7 @@ class UserRepositoryImpl extends UserRepository {
 
   @override
   Future<DataState<UserModel>> registerUser({
-    required RegisterRequestData registerRequestData,
+    required RegisterRequest registerRequestData,
   }) async {
     try {
       final httpResponse = await _userApiService.registerUser(
@@ -66,7 +66,7 @@ class UserRepositoryImpl extends UserRepository {
 
   @override
   Future<DataState<UserModel>> loginUser({
-    required LoginRequestData loginRequestData,
+    required LoginRequest loginRequestData,
   }) async {
     try {
       final httpResponse = await _userApiService.loginUser(

@@ -13,6 +13,7 @@ import 'package:store_flutter_clean_code_nodejs/features/auth/presentation/bloc/
 import 'package:store_flutter_clean_code_nodejs/features/tasks/data/datasources/tasks_api_service.dart';
 import 'package:store_flutter_clean_code_nodejs/features/tasks/data/repositories/tasks_repository_impl.dart';
 import 'package:store_flutter_clean_code_nodejs/features/tasks/domain/repositories/tasks_repository.dart';
+import 'package:store_flutter_clean_code_nodejs/features/tasks/domain/usecases/create_task.dart';
 import 'package:store_flutter_clean_code_nodejs/features/tasks/domain/usecases/get_all_tasks.dart';
 import 'package:store_flutter_clean_code_nodejs/features/tasks/presentation/bloc/tasks_bloc.dart';
 
@@ -36,11 +37,10 @@ Future<void> initializeDependencies() async {
   sl.registerSingleton<LoginUserUseCase>(LoginUserUseCase(sl()));
   sl.registerSingleton<LogoutUserUseCase>(LogoutUserUseCase(sl()));
   sl.registerSingleton<GetAllTasksUsecase>(GetAllTasksUsecase(sl()));
+  sl.registerSingleton<CreateTaskUsecase>(CreateTaskUsecase(sl()));
 
   //Blocs
   sl.registerFactory<RegisterBloc>(() => RegisterBloc(sl()));
   sl.registerFactory<LoginBloc>(() => LoginBloc(sl(), sl()));
-  sl.registerFactory<TasksBloc>(() => TasksBloc(
-        sl(),
-      ));
+  sl.registerFactory<TasksBloc>(() => TasksBloc(sl(), sl()));
 }

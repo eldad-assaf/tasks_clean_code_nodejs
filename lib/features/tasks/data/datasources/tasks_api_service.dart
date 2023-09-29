@@ -1,6 +1,7 @@
 import 'package:retrofit/retrofit.dart';
 import 'package:dio/dio.dart';
 import 'package:store_flutter_clean_code_nodejs/core/constants/constants.dart';
+import 'package:store_flutter_clean_code_nodejs/features/tasks/data/models/create_task_request.dart';
 import 'package:store_flutter_clean_code_nodejs/features/tasks/data/models/task_model.dart';
 
 part 'tasks_api_service.g.dart';
@@ -15,4 +16,8 @@ abstract class TasksApiService {
       @Header("Authorization")
       String accessToken // Add this line to include the access token header
       );
+
+ @POST('/tasks')
+  Future<HttpResponse<TaskModel>> createTask(@Body() CreateTaskRequest createTaskRequest);
+
 }

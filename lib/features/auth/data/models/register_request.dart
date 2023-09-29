@@ -1,11 +1,10 @@
-
 //**This is the body of the http post request to register a NEW user */
-class RegisterRequestData {
+class RegisterRequest {
   final String name;
   final String email;
   final String password;
 
-  RegisterRequestData({
+  RegisterRequest({
     required this.name,
     required this.email,
     required this.password,
@@ -19,4 +18,3 @@ class RegisterRequestData {
     };
   }
 }
-
