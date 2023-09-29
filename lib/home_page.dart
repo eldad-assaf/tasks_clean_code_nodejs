@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:store_flutter_clean_code_nodejs/features/tasks/presentation/pages/tasks_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -12,6 +13,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _buildAppBar(),
+      body: TasksPage(),
     );
   }
 

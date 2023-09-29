@@ -4,6 +4,7 @@ import 'package:store_flutter_clean_code_nodejs/config/routes/app_routes.dart';
 import 'package:store_flutter_clean_code_nodejs/features/auth/presentation/bloc/login_bloc/login_bloc.dart';
 import 'package:store_flutter_clean_code_nodejs/features/auth/presentation/bloc/register_bloc/register_bloc.dart';
 import 'package:store_flutter_clean_code_nodejs/features/auth/presentation/widgets/auth_state_builder.dart';
+import 'package:store_flutter_clean_code_nodejs/features/tasks/presentation/bloc/tasks_bloc.dart';
 import 'package:store_flutter_clean_code_nodejs/injection_container.dart';
 
 Future<void> main() async {
@@ -23,7 +24,10 @@ class MyApp extends StatelessWidget {
           create: (context) => sl(),
         ),
         BlocProvider<LoginBloc>(
-          create: (context) => LoginBloc(sl(),sl()),
+          create: (context) => LoginBloc(sl(), sl()),
+        ),
+        BlocProvider<TasksBloc>(
+          create: (context) => TasksBloc(sl())..add(GetTasks()),
         ),
       ],
       child: MaterialApp(

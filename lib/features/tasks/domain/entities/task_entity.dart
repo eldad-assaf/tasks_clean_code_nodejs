@@ -9,9 +9,7 @@ class TaskEntity extends Equatable {
     this.name,
     this.completed,
   });
-  
+
   @override
-  List<Object?> get props => [id,name,completed];
-
-
+  List<Object?> get props => [id, name, completed];
 }

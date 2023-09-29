@@ -30,6 +30,7 @@ class TasksRepositoryImpl extends TasksRepository {
           await _tasksApiService.getAllTasks('application/json', token);
 
       if (httpResponse.response.statusCode == HttpStatus.ok) {
+
         return DataSuccess(httpResponse.data);
       } else {
         return DataFailed(DioException(

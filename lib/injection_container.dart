@@ -14,6 +14,7 @@ import 'package:store_flutter_clean_code_nodejs/features/tasks/data/datasources/
 import 'package:store_flutter_clean_code_nodejs/features/tasks/data/repositories/tasks_repository_impl.dart';
 import 'package:store_flutter_clean_code_nodejs/features/tasks/domain/repositories/tasks_repository.dart';
 import 'package:store_flutter_clean_code_nodejs/features/tasks/domain/usecases/get_all_tasks.dart';
+import 'package:store_flutter_clean_code_nodejs/features/tasks/presentation/bloc/tasks_bloc.dart';
 
 final sl = GetIt.instance;
 
@@ -39,5 +40,7 @@ Future<void> initializeDependencies() async {
   //Blocs
   sl.registerFactory<RegisterBloc>(() => RegisterBloc(sl()));
   sl.registerFactory<LoginBloc>(() => LoginBloc(sl(), sl()));
-  
+  sl.registerFactory<TasksBloc>(() => TasksBloc(
+        sl(),
+      ));
 }
