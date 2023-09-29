@@ -7,7 +7,7 @@ abstract class RegisterState extends Equatable {
   const RegisterState({this.userEntity, this.error});
 
   @override
-  List<Object> get props => [userEntity?? '', error??''];
+  List<Object?> get props => [userEntity, error];
 }
 
 class RegisterInitial extends RegisterState {
