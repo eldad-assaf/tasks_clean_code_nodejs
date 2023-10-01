@@ -23,7 +23,7 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
 
   void onGetTasks(GetTasksEvent event, Emitter<TasksState> emit) async {
     final dataState = await _getAllTasksUsecase();
-    if (dataState is DataSuccess && dataState.data!.isNotEmpty) {
+    if (dataState is DataSuccess && dataState.data != null) {
       emit(TasksLoaded(dataState.data!));
     }
     if (dataState is DataFailed) {

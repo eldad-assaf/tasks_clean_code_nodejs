@@ -23,7 +23,7 @@ class _TasksPage extends State<TasksPage> {
             child: Text('Something went wrong'),
           );
         }
-        if (state.tasks != null) {
+        if (state.tasks != null && state.tasks!.isNotEmpty) {
           final List<TaskEntity> tasks = state.tasks!;
           ;
           return Container(
@@ -39,9 +39,7 @@ class _TasksPage extends State<TasksPage> {
                       subtitle:
                           Text(task.completed.toString() + ' ' + task.id!),
                       trailing: IconButton(
-                        onPressed: () {
-                          
-                        },
+                        onPressed: () {},
                         icon: Icon(Icons.remove_circle),
                       ));
                 }
@@ -49,10 +47,12 @@ class _TasksPage extends State<TasksPage> {
               },
             ),
           );
-        } else {
-          return Container(
-            color: Colors.amber,
+        } else if (state.tasks != null && state.tasks!.isEmpty) {
+          return Center(
+            child: Text('You have 0 tasks!'),
           );
+        } else {
+          return Container();
         }
       },
     );
