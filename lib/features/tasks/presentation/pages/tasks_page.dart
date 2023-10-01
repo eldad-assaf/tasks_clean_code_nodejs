@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:store_flutter_clean_code_nodejs/features/tasks/data/models/remove_task_request.dart';
 import 'package:store_flutter_clean_code_nodejs/features/tasks/domain/entities/task_entity.dart';
 import 'package:store_flutter_clean_code_nodejs/features/tasks/presentation/bloc/tasks_bloc.dart';
 
@@ -39,7 +40,10 @@ class _TasksPage extends State<TasksPage> {
                       subtitle:
                           Text(task.completed.toString() + ' ' + task.id!),
                       trailing: IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          BlocProvider.of<TasksBloc>(context).add(
+                              RemoveTaskEvent(RemoveTaskRequest(id: task.id!)));
+                        },
                         icon: Icon(Icons.remove_circle),
                       ));
                 }

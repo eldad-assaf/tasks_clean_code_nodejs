@@ -18,3 +18,11 @@ class CreateTaskEvent extends TasksEvent {
     this.createTaskRequest,
   );
 }
+
+class RemoveTaskEvent extends TasksEvent {
+  final RemoveTaskRequest removeTaskRequest;
+
+  const RemoveTaskEvent(
+    this.removeTaskRequest,
+  );
+}

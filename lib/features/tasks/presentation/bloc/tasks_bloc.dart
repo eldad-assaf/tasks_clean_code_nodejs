@@ -5,20 +5,24 @@ import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:store_flutter_clean_code_nodejs/core/resources/data_state.dart';
 import 'package:store_flutter_clean_code_nodejs/features/tasks/data/models/create_task_request.dart';
+import 'package:store_flutter_clean_code_nodejs/features/tasks/data/models/remove_task_request.dart';
 import 'package:store_flutter_clean_code_nodejs/features/tasks/domain/entities/task_entity.dart';
 import 'package:store_flutter_clean_code_nodejs/features/tasks/domain/usecases/create_task.dart';
 import 'package:store_flutter_clean_code_nodejs/features/tasks/domain/usecases/get_all_tasks.dart';
+import 'package:store_flutter_clean_code_nodejs/features/tasks/domain/usecases/remove_task.dart';
 part 'tasks_event.dart';
 part 'tasks_state.dart';
 
 class TasksBloc extends Bloc<TasksEvent, TasksState> {
-  // final GetArticleUseCase _articleUseCase;
   final GetAllTasksUsecase _getAllTasksUsecase;
   final CreateTaskUsecase _createTaskUsecase;
-  TasksBloc(this._getAllTasksUsecase, this._createTaskUsecase)
+  final RemoveTaskUsecase _removeTaskUsecase;
+  TasksBloc(this._getAllTasksUsecase, this._createTaskUsecase,
+      this._removeTaskUsecase)
       : super(TasksLoading()) {
     on<GetTasksEvent>(onGetTasks);
     on<CreateTaskEvent>(onCreateTask);
+    on<RemoveTaskEvent>(onRemoveTask);
   }
 
   void onGetTasks(GetTasksEvent event, Emitter<TasksState> emit) async {
@@ -34,6 +38,25 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
 
   void onCreateTask(CreateTaskEvent event, Emitter<TasksState> emit) async {
     final dataState = await _createTaskUsecase(params: event.createTaskRequest);
+    if (dataState is DataSuccess && dataState.data != null) {
+      log('ok : ${dataState.data!.name}');
+      log('ok : ${dataState.data!.id}');
+      log('ok : ${dataState.data!.completed}');
+
+      add(GetTasksEvent());
+    }
+    if (dataState is DataFailed) {
+      log('DataFailed from tasksbloc');
+      log(dataState.error.toString());
+
+      log(dataState.error!.type.toString());
+
+      emit(TasksError(dataState.error!));
+    }
+  }
+
+  void onRemoveTask(RemoveTaskEvent event, Emitter<TasksState> emit) async {
+    final dataState = await _removeTaskUsecase(params: event.removeTaskRequest);
     if (dataState is DataSuccess && dataState.data != null) {
       log('ok : ${dataState.data!.name}');
       log('ok : ${dataState.data!.id}');
