@@ -71,6 +71,7 @@ class _TasksPage extends State<TasksPage> {
                           return confirmDelete;
                         } else if (direction == DismissDirection.endToStart) {
                           //TODO: update the task to completed
+                      
                           log('endToStart');
                         }
                         return null;
