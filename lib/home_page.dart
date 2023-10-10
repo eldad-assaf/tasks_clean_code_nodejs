@@ -31,6 +31,7 @@ class _HomePageState extends State<HomePage> {
             onPressed: () {
               showDialog(
                 context: context,
+                barrierDismissible: false,
                 builder: (BuildContext context) {
                   return TaskNameDialog(
                     onDonePressed: (taskName) {

@@ -54,7 +54,6 @@ class _TasksPage extends State<TasksPage> {
                         ),
                       ),
                       confirmDismiss: (direction) async {
-                        log(direction.toString());
                         if (direction == DismissDirection.startToEnd) {
                           bool confirmDelete = await showDialog(
                             context: context,

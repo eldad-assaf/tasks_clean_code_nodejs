@@ -35,7 +35,6 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
       emit(TasksLoaded(dataState.data!));
     }
     if (dataState is DataFailed) {
-      log('DataFailed from tasksbloc');
       emit(TasksError(dataState.error!));
     }
   }
