@@ -26,6 +26,11 @@ class _HomePageState extends State<HomePage> {
     return AppBar(
       title: const Text('NodeJS Task App'),
       automaticallyImplyLeading: false,
+      leading: IconButton(
+          onPressed: () {
+            _onGoToProfilePressed(context);
+          },
+          icon: Icon(Icons.person)),
       actions: [
         IconButton(
             onPressed: () {
@@ -42,8 +47,12 @@ class _HomePageState extends State<HomePage> {
                 },
               );
             },
-            icon: Icon(Icons.add))
+            icon: Icon(Icons.add)),
       ],
     );
+  }
+
+  void _onGoToProfilePressed(BuildContext context) {
+    Navigator.pushNamed(context, '/ProfilePage');
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:store_flutter_clean_code_nodejs/features/Profile/presentation/pages/Profile_page.dart';
 import 'package:store_flutter_clean_code_nodejs/features/auth/presentation/pages/login_page.dart';
 import 'package:store_flutter_clean_code_nodejs/features/auth/presentation/pages/signup_page.dart';
 import 'package:store_flutter_clean_code_nodejs/features/auth/presentation/widgets/auth_state_builder.dart';
@@ -9,14 +10,16 @@ class AppRoutes {
     switch (settings.name) {
       case '/':
         return _materialRoute(const AuthStateBuilder());
-
+      case '/HomePage':
+        return _materialRoute(const HomePage());
       case '/SignupPage':
         return _materialRoute(const SignupPage());
 
       case '/LoginPage':
         return _materialRoute(const LoginPage());
-      case '/HomePage':
-        return _materialRoute(const HomePage());
+
+      case '/ProfilePage':
+        return _materialRoute(const ProfilePage());
 
       default:
         return _materialRoute(const AuthStateBuilder());
