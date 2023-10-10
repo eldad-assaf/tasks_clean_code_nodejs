@@ -1,16 +1,26 @@
 import 'package:flutter/material.dart';
 
-class TaskNameDialog extends StatelessWidget {
-  final TextEditingController _taskNameController = TextEditingController();
+class TaskNameDialog extends StatefulWidget {
   final Function(String) onDonePressed;
 
   TaskNameDialog({required this.onDonePressed});
+
+  @override
+  State<TaskNameDialog> createState() => _TaskNameDialogState();
+}
+
+class _TaskNameDialogState extends State<TaskNameDialog> {
+  final TextEditingController _taskNameController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
       title: Text('Enter Task Name'),
       content: TextField(
+        maxLength: 20,
+        onChanged: (value) {
+          setState(() {});
+        },
         controller: _taskNameController,
         decoration: InputDecoration(
           hintText: 'Task Name',
@@ -30,7 +40,7 @@ class TaskNameDialog extends StatelessWidget {
           child: Text('Done'),
           onPressed: () {
             if (_taskNameController.text.isNotEmpty) {
-              onDonePressed(_taskNameController.text);
+              widget.onDonePressed(_taskNameController.text);
               Navigator.of(context).pop();
             }
           },

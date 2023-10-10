@@ -6,10 +6,12 @@ import 'package:equatable/equatable.dart';
 import 'package:store_flutter_clean_code_nodejs/core/resources/data_state.dart';
 import 'package:store_flutter_clean_code_nodejs/features/tasks/data/models/create_task_request.dart';
 import 'package:store_flutter_clean_code_nodejs/features/tasks/data/models/remove_task_request.dart';
+import 'package:store_flutter_clean_code_nodejs/features/tasks/data/models/update_task_request.dart';
 import 'package:store_flutter_clean_code_nodejs/features/tasks/domain/entities/task_entity.dart';
 import 'package:store_flutter_clean_code_nodejs/features/tasks/domain/usecases/create_task.dart';
 import 'package:store_flutter_clean_code_nodejs/features/tasks/domain/usecases/get_all_tasks.dart';
 import 'package:store_flutter_clean_code_nodejs/features/tasks/domain/usecases/remove_task.dart';
+import 'package:store_flutter_clean_code_nodejs/features/tasks/domain/usecases/update_task.dart';
 part 'tasks_event.dart';
 part 'tasks_state.dart';
 
@@ -17,12 +19,14 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
   final GetAllTasksUsecase _getAllTasksUsecase;
   final CreateTaskUsecase _createTaskUsecase;
   final RemoveTaskUsecase _removeTaskUsecase;
+  final UpdateTaskUsecase _updateTaskUsecase;
   TasksBloc(this._getAllTasksUsecase, this._createTaskUsecase,
-      this._removeTaskUsecase)
+      this._removeTaskUsecase, this._updateTaskUsecase)
       : super(TasksLoading()) {
     on<GetTasksEvent>(onGetTasks);
     on<CreateTaskEvent>(onCreateTask);
     on<RemoveTaskEvent>(onRemoveTask);
+    on<UpdateTaskEvent>(onUpdateTask);
   }
 
   void onGetTasks(GetTasksEvent event, Emitter<TasksState> emit) async {
@@ -70,6 +74,16 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
 
       log(dataState.error!.type.toString());
 
+      emit(TasksError(dataState.error!));
+    }
+  }
+
+  void onUpdateTask(UpdateTaskEvent event, Emitter<TasksState> emit) async {
+    final dataState = await _updateTaskUsecase(params: event.updateTaskRequest);
+    if (dataState is DataSuccess && dataState.data != null) {
+      add(GetTasksEvent());
+    }
+    if (dataState is DataFailed) {
       emit(TasksError(dataState.error!));
     }
   }

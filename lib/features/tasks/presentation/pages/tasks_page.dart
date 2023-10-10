@@ -3,9 +3,11 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:store_flutter_clean_code_nodejs/features/tasks/data/models/remove_task_request.dart';
+import 'package:store_flutter_clean_code_nodejs/features/tasks/data/models/update_task_request.dart';
 import 'package:store_flutter_clean_code_nodejs/features/tasks/domain/entities/task_entity.dart';
 import 'package:store_flutter_clean_code_nodejs/features/tasks/presentation/bloc/tasks_bloc.dart';
 import 'package:store_flutter_clean_code_nodejs/features/tasks/presentation/widgets/remove_task_dialog.dart';
+import 'package:store_flutter_clean_code_nodejs/features/tasks/presentation/widgets/update_task_dialog.dart';
 
 class TasksPage extends StatefulWidget {
   @override
@@ -70,27 +72,36 @@ class _TasksPage extends State<TasksPage> {
                           }
                           return confirmDelete;
                         } else if (direction == DismissDirection.endToStart) {
-                          //TODO: update the task to completed
-                      
-                          log('endToStart');
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return UpdateTaskDialog(
+                                task: task,
+                              );
+                            },
+                          );
                         }
                         return null;
                       },
                       key: Key(task.id!),
-                      onDismissed: (direction) {
-                        // BlocProvider.of<TasksBloc>(context).add(
-                        // RemoveTaskEvent(RemoveTaskRequest(id: task.id!)));
-                        ScaffoldMessenger.of(context)
-                            .showSnackBar(SnackBar(content: Text('')));
-                      },
                       child: ListTile(
                         title: Text(task.name!),
-                        subtitle:
-                            Text(task.completed.toString() + ' ' + task.id!),
-                        trailing: Icon(
-                          Icons.circle,
-                          color: task.completed! ? Colors.green : Colors.blue,
-                        ),
+                        subtitle: task.completed == true
+                            ? Text('Completed!')
+                            : Text('Not completed'),
+                        trailing: Switch(
+                            value: task.completed!,
+                            onChanged: (value) {
+                              BlocProvider.of<TasksBloc>(context).add(
+                                UpdateTaskEvent(
+                                  UpdateTaskRequest(
+                                    id: task.id!,
+                                    newName: task.name,
+                                    completed: !task.completed!,
+                                  ),
+                                ),
+                              );
+                            }),
                       ));
                 }
                 return null;
