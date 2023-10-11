@@ -75,6 +75,8 @@ class UserRepositoryImpl extends UserRepository {
       );
 
       if (httpResponse.response.statusCode == HttpStatus.ok) {
+        print('ok');
+        print('${httpResponse.data.email}');
         final user = UserModel(
           userUid: httpResponse.data.userUid,
           name: httpResponse.data.name,
