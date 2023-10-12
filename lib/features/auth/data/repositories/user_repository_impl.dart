@@ -24,6 +24,7 @@ class UserRepositoryImpl extends UserRepository {
   Future<DataState<UserModel>> registerUser({
     required RegisterRequest registerRequestData,
   }) async {
+    print('registerUser');
     try {
       final httpResponse = await _userApiService.registerUser(
         registerRequestData,
@@ -44,6 +45,11 @@ class UserRepositoryImpl extends UserRepository {
 
         return DataSuccess(httpResponse.data);
       } else {
+        print('error');
+        // print(httpResponse.response.statusMessage);
+        print(httpResponse.response);
+        //   print(httpResponse.response.statusMessage);
+
         return DataFailed(
           DioException(
             error: httpResponse.response.statusMessage,
@@ -54,6 +60,9 @@ class UserRepositoryImpl extends UserRepository {
         );
       }
     } on DioException catch (e) {
+    
+      print('${e.response!.data}');
+
       return DataFailed(e);
     } catch (e) {
       return DataFailed(DioException(

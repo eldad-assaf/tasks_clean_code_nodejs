@@ -22,13 +22,13 @@ abstract class TasksApiService {
   Future<HttpResponse<TaskModel>> createTask(
       @Body() CreateTaskRequest createTaskRequest);
 
-
   @DELETE("/tasks/{id}")
   Future<HttpResponse<TaskModel>> removeTask(@Path() String id);
 
   @PATCH("/tasks/{id}")
   Future<HttpResponse<TaskModel>> updateTask(
-      @Path() String id, @Body()UpdateTaskRequest updateTaskRequest   );
-
-  
+      @Header("Authorization")
+      String accessToken, // Add this line to include the access token header
+      @Path() String id,
+      @Body() UpdateTaskRequest updateTaskRequest);
 }

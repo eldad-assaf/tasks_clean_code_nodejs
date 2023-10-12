@@ -20,7 +20,7 @@ class TasksRepositoryImpl extends TasksRepository {
   Future<DataState<List<TaskModel>>> getAllTasks() async {
     try {
       //get the access token
-      final token = await _flutterSecureStorage.read(key: 'token');
+      var token = await _flutterSecureStorage.read(key: 'token');
       if (token == null) {
         return DataFailed(
           DioException(
@@ -30,6 +30,7 @@ class TasksRepositoryImpl extends TasksRepository {
           ),
         );
       }
+      token ='Bearer ${token}';
       final httpResponse =
           await _tasksApiService.getAllTasks('application/json', token);
 
@@ -43,7 +44,7 @@ class TasksRepositoryImpl extends TasksRepository {
             requestOptions: httpResponse.response.requestOptions));
       }
     } on DioException catch (e) {
-      log(e.toString());
+      print(e.toString());
       return DataFailed(e);
     }
   }

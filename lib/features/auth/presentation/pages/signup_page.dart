@@ -42,13 +42,20 @@ class _SignupPageState extends State<SignupPage> {
     return BlocListener<RegisterBloc, RegisterState>(
       listener: (context, state) async {
         if (state is RegistrationError) {
+          String error = '';
+          if (state.error != null) {
+            error = state.error!.response?.data['msg'] ?? 'Unknown Error';
+          } else {
+            error = 'Unknown Error';
+          }
+
           await showDialog(
             context: context,
             builder: (context) {
               return AlertDialog(
                 title: Text('error'),
-                // content: Text(state.error!.response.toString()),
-                content: Text(state.error!.message.toString()),
+                // content: Text(state.error!.response!.data['msg'].toString()),
+                content: Text(error),
               );
             },
           );

@@ -10,9 +10,7 @@ part of 'tasks_api_service.dart';
 
 class _TasksApiService implements TasksApiService {
   _TasksApiService(
-    this._dio, {
-    this.baseUrl,
-  }) {
+    this._dio) {
     baseUrl ??= 'http://localhost:3005/api/v1';
   }
 

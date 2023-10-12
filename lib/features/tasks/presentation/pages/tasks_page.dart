@@ -25,6 +25,7 @@ class _TasksPage extends State<TasksPage> {
           );
         }
         if (state is TasksError) {
+          print('${state.error!.message}');
           return Center(
             child: Text('Something went wrong'),
           );

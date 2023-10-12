@@ -59,6 +59,12 @@ class _ProfilePageState extends State<ProfilePage> {
                           'email:' + ' ' + userSnapshot.data!.email.toString(),
                         ),
                       ),
+                      ListTile(
+                        leading: Icon(Icons.email),
+                        title: Text(
+                          'uid:' + ' ' + userSnapshot.data!.userUid.toString(),
+                        ),
+                      ),
                       Spacer(),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
