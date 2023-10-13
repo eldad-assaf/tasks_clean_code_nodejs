@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:store_flutter_clean_code_nodejs/features/tasks/data/models/create_task_request.dart';
-import 'package:store_flutter_clean_code_nodejs/features/tasks/data/models/update_task_request.dart';
 import 'package:store_flutter_clean_code_nodejs/features/tasks/presentation/bloc/tasks_bloc.dart';
 import 'package:store_flutter_clean_code_nodejs/features/tasks/presentation/pages/tasks_page.dart';
 import 'package:store_flutter_clean_code_nodejs/features/tasks/presentation/widgets/task_name_dialog.dart';
