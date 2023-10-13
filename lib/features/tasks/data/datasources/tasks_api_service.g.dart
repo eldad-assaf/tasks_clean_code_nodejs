@@ -10,7 +10,9 @@ part of 'tasks_api_service.dart';
 
 class _TasksApiService implements TasksApiService {
   _TasksApiService(
-    this._dio) {
+    this._dio, {
+    this.baseUrl,
+  }) {
     baseUrl ??= 'http://localhost:3005/api/v1';
   }
 
@@ -78,10 +80,14 @@ class _TasksApiService implements TasksApiService {
   }
 
   @override
-  Future<HttpResponse<TaskModel>> removeTask(id) async {
+  Future<HttpResponse<TaskModel>> removeTask(
+    accessToken,
+    id,
+  ) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'Authorization': accessToken};
+    _headers.removeWhere((k, v) => v == null);
     final Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<HttpResponse<TaskModel>>(Options(
@@ -103,12 +109,14 @@ class _TasksApiService implements TasksApiService {
 
   @override
   Future<HttpResponse<TaskModel>> updateTask(
+    accessToken,
     id,
     updateTaskRequest,
   ) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'Authorization': accessToken};
+    _headers.removeWhere((k, v) => v == null);
     final _data = <String, dynamic>{};
     _data.addAll(updateTaskRequest.toJson());
     final _result = await _dio.fetch<Map<String, dynamic>>(

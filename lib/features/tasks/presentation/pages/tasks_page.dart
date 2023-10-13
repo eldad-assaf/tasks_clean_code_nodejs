@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:store_flutter_clean_code_nodejs/features/tasks/data/models/remove_task_request.dart';
@@ -25,14 +23,12 @@ class _TasksPage extends State<TasksPage> {
           );
         }
         if (state is TasksError) {
-          print('${state.error!.message}');
           return Center(
             child: Text('Something went wrong'),
           );
         }
         if (state.tasks != null && state.tasks!.isNotEmpty) {
           final List<TaskEntity> tasks = state.tasks!;
-          ;
           return Container(
             child: ListView.builder(
               itemCount: state.tasks!.length,

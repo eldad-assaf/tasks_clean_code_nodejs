@@ -23,7 +23,11 @@ abstract class TasksApiService {
       @Body() CreateTaskRequest createTaskRequest);
 
   @DELETE("/tasks/{id}")
-  Future<HttpResponse<TaskModel>> removeTask(@Path() String id);
+  Future<HttpResponse<TaskModel>> removeTask(
+    @Header("Authorization")
+    String accessToken, // Add this line to include the access token header
+    @Path() String id,
+  );
 
   @PATCH("/tasks/{id}")
   Future<HttpResponse<TaskModel>> updateTask(

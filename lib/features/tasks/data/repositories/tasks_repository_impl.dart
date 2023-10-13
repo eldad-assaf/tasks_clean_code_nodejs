@@ -30,7 +30,7 @@ class TasksRepositoryImpl extends TasksRepository {
           ),
         );
       }
-      token ='Bearer ${token}';
+      token = 'Bearer ${token}';
       final httpResponse =
           await _tasksApiService.getAllTasks('application/json', token);
 
@@ -85,7 +85,7 @@ class TasksRepositoryImpl extends TasksRepository {
       {required RemoveTaskRequest removeTaskRequest}) async {
     try {
       //get the access token
-      final token = await _flutterSecureStorage.read(key: 'token');
+      var token = await _flutterSecureStorage.read(key: 'token');
       if (token == null) {
         return DataFailed(
           DioException(
@@ -95,8 +95,10 @@ class TasksRepositoryImpl extends TasksRepository {
           ),
         );
       }
+            token = 'Bearer ${token}';
+
       final httpResponse =
-          await _tasksApiService.removeTask(removeTaskRequest.id);
+          await _tasksApiService.removeTask(token,removeTaskRequest.id);
       if (httpResponse.response.statusCode == HttpStatus.ok) {
         return DataSuccess(httpResponse.data);
       } else {
@@ -117,7 +119,7 @@ class TasksRepositoryImpl extends TasksRepository {
       {required UpdateTaskRequest updateTaskRequest}) async {
     try {
       //get the access token
-      final token = await _flutterSecureStorage.read(key: 'token');
+      var token = await _flutterSecureStorage.read(key: 'token');
       if (token == null) {
         return DataFailed(
           DioException(
@@ -127,8 +129,10 @@ class TasksRepositoryImpl extends TasksRepository {
           ),
         );
       }
+      token = 'Bearer ${token}';
+
       final httpResponse = await _tasksApiService.updateTask(
-          updateTaskRequest.id, updateTaskRequest);
+          token, updateTaskRequest.id, updateTaskRequest);
       if (httpResponse.response.statusCode == HttpStatus.ok) {
         return DataSuccess(httpResponse.data);
       } else {
