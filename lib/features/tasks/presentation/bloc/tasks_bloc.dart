@@ -51,7 +51,6 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
     if (dataState is DataFailed) {
       print('DataFailed from tasksbloc');
       print('error :${dataState.error!.response!.data['msg']}');//token is missing
-
       emit(TasksError(dataState.error!));
     }
   }

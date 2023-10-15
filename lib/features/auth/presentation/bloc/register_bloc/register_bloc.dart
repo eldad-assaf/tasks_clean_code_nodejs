@@ -29,8 +29,8 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       }
       if (dataState is DataFailed) {
         print('DataFailed from bloc');
-        print('Error on RegisterBloc : ${dataState.error!.response!.data!} ');
-
+        
+        print('Error on RegisterBloc : ${dataState.error!.response!.data!['msg']} ');
         emit(RegistrationError(dataState.error!));
       }
     } catch (e) {
