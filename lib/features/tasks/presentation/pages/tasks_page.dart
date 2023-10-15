@@ -23,6 +23,7 @@ class _TasksPage extends State<TasksPage> {
           );
         }
         if (state is TasksError) {
+          print(state.error.toString());
           return Center(
             child: Text('Something went wrong'),
           );

@@ -49,10 +49,8 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
       add(GetTasksEvent());
     }
     if (dataState is DataFailed) {
-      log('DataFailed from tasksbloc');
-      log(dataState.error.toString());
-
-      log(dataState.error!.type.toString());
+      print('DataFailed from tasksbloc');
+      print('error :${dataState.error!.response!.data['msg']}');//token is missing
 
       emit(TasksError(dataState.error!));
     }

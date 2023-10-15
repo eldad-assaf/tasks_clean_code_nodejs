@@ -54,7 +54,7 @@ class TasksRepositoryImpl extends TasksRepository {
       {required CreateTaskRequest createTaskRequest}) async {
     try {
       //get the access token
-      final token = await _flutterSecureStorage.read(key: 'token');
+      var token = await _flutterSecureStorage.read(key: 'token');
       if (token == null) {
         return DataFailed(
           DioException(
@@ -64,7 +64,9 @@ class TasksRepositoryImpl extends TasksRepository {
           ),
         );
       }
-      final httpResponse = await _tasksApiService.createTask(createTaskRequest);
+           // token = 'Bearer ${token}';
+
+      final httpResponse = await _tasksApiService.createTask(token,createTaskRequest);
       if (httpResponse.response.statusCode == HttpStatus.ok) {
         return DataSuccess(httpResponse.data);
       } else {

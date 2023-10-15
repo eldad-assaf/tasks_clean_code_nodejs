@@ -55,10 +55,14 @@ class _TasksApiService implements TasksApiService {
   }
 
   @override
-  Future<HttpResponse<TaskModel>> createTask(createTaskRequest) async {
+  Future<HttpResponse<TaskModel>> createTask(
+    accessToken,
+    createTaskRequest,
+  ) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'Authorization': accessToken};
+    _headers.removeWhere((k, v) => v == null);
     final _data = <String, dynamic>{};
     _data.addAll(createTaskRequest.toJson());
     final _result = await _dio.fetch<Map<String, dynamic>>(

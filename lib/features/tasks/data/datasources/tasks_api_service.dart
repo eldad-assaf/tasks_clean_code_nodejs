@@ -20,7 +20,9 @@ abstract class TasksApiService {
 
   @POST('/tasks')
   Future<HttpResponse<TaskModel>> createTask(
-      @Body() CreateTaskRequest createTaskRequest);
+    @Header("Authorization") String accessToken,
+    @Body() CreateTaskRequest createTaskRequest,
+  );
 
   @DELETE("/tasks/{id}")
   Future<HttpResponse<TaskModel>> removeTask(
