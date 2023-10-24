@@ -33,7 +33,7 @@ This project follows a structured and modular organization to enhance maintainab
     - **`domain/`**: Contains business logic entities, repositories, and use cases specific to the feature.
     - **`presentation/`**: Includes BLoC (Business Logic Component) for state management, UI components, and feature-specific pages and widgets.
 
-  - **`lib/features/auth/`**, **`lib/features/daily_news_example_feature/`**, **`lib/features/tasks/`**: Additional feature modules organized in a similar manner.
+  - **`lib/features/auth/`**, **`lib/features/tasks/`**: Additional feature modules organized in a similar manner.
 
 - **`lib/home_page.dart`**: Main entry point for the home page of the application.
 
