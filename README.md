@@ -42,3 +42,10 @@ This project follows a structured and modular organization to enhance maintainab
 - **`lib/main.dart`**: The primary entry point of the application, initiating the app and routing to the initial screen.
 
 This structured approach encourages a modular and organized codebase, making it easier to understand, maintain, and extend the application. Each module encapsulates its functionality, allowing developers to work on specific features independently. Feel free to explore these directories for a deeper understanding of the project's architecture and components. Happy coding! 🚀
+
+<p float="left">
+  <img src="images/profile.png" alt="" width="300" />
+
+</p>
+
+
