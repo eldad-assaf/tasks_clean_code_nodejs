@@ -14,44 +14,31 @@ This project is a simple task management application developed to demonstrate cl
 8. **GetIt (Dependency Injection):** Implemented dependency injection using GetIt to manage and inject dependencies throughout the Flutter app, promoting modularity and testability.
 9. **Dio (HTTP Calls):** Utilized Dio, a powerful HTTP client for Dart, to make efficient and reliable HTTP requests from the Flutter app to the backend server.
 
-## Folder Structure:
+# Project Folder Structure Summary
 
-The project follows a clean and organized folder structure, separating different aspects of the application for clarity and maintainability.
+This project follows a structured and modular organization to enhance maintainability and scalability. Below is a summary of the key directories and their purposes:
 
-- **`/backend`:** Contains all the server-side code, including authentication, API routes, error handling, and database integration.
-- **`/frontend`:** Contains the Flutter application code, including UI components, state management, and API integration.
-- **`/docs`:** Includes documentation files, including API documentation generated using SwaggerUI.
-- **`/postman`:** Contains Postman collections for testing API endpoints.
-- **`/screenshots`:** Includes screenshots of the application for reference.
+- **`lib/common/`**: Contains reusable components and helper functions used across the application, promoting code reusability and consistency.
 
-## Getting Started:
+- **`lib/config/`**: Manages the application's configuration settings, including routes and themes, ensuring centralized management of app-wide settings.
 
-To get started with the Full-Stack Task App, follow these steps:
+- **`lib/core/`**: Houses fundamental application logic such as constants, data state management, and use cases, maintaining a clean separation of concerns.
 
-1. Clone the repository to your local machine:
+- **`lib/di/`**: Placeholder for dependency injection configurations, ensuring a centralized setup for managing dependencies.
 
-   ```
-   git clone <repository-url.git>
-   ```
+- **`lib/features/`**: Organized by feature modules, each module contains its own data, domain, and presentation layers, enabling modular development and easy feature-specific updates.
 
-2. Set up the backend server by navigating to the `/backend` directory and following the instructions in the `README.md` file located there.
+  - **`lib/features/Profile/`**: Example feature module, illustrating the structure:
+    - **`data/`**: Manages data sources, including local storage and API interactions.
+    - **`domain/`**: Contains business logic entities, repositories, and use cases specific to the feature.
+    - **`presentation/`**: Includes BLoC (Business Logic Component) for state management, UI components, and feature-specific pages and widgets.
 
-3. Set up the Flutter application by navigating to the `/frontend` directory and following the instructions in the `README.md` file located there.
+  - **`lib/features/auth/`**, **`lib/features/daily_news_example_feature/`**, **`lib/features/tasks/`**: Additional feature modules organized in a similar manner.
 
-4. Explore the documentation in the `/docs` folder to understand the API endpoints and how to interact with them.
+- **`lib/home_page.dart`**: Main entry point for the home page of the application.
 
-5. Use the provided Postman collections in the `/postman` folder to test the API endpoints.
+- **`lib/injection_container.dart`**: Manages dependency injection for the application, ensuring efficient management of dependencies and services.
 
-## Contributing:
+- **`lib/main.dart`**: The primary entry point of the application, initiating the app and routing to the initial screen.
 
-If you would like to contribute to the project, please follow our [Contribution Guidelines](CONTRIBUTING.md). We welcome contributions from the community to make this project even better!
-
-## License:
-
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
-
----
-
-Thank you for your interest in the Full-Stack Task App! If you have any questions or issues, please feel free to [create an issue](https://github.com/<username>/<repository>/issues) or reach out to us.
-
-Happy coding! 🚀
+This structured approach encourages a modular and organized codebase, making it easier to understand, maintain, and extend the application. Each module encapsulates its functionality, allowing developers to work on specific features independently. Feel free to explore these directories for a deeper understanding of the project's architecture and components. Happy coding! 🚀
